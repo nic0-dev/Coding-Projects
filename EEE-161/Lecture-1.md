@@ -15,18 +15,8 @@ Information Theory is all about **Quantification of Information**. When analyzin
 **Goal: $W={\hat{W}}$**
 
 ```mermaid
-  %%{
-    init: {
-      'theme':'base',
-      'themeVariables': {
-        'primaryColor': '#92a68a',
-        'primaryTextColor': '#fff',
-        'primaryBorderColor': '#bcc499',
-        'lineColor': '#f5dd9d',
-        'secondaryColor': '#506266',
-        'tertiaryColor': '#7b8f8a'
-      }
-    }
+  %%{init: {'theme':'base',
+    'themeVariables': {'primaryColor': '#92a68a','primaryTextColor': '#fff','primaryBorderColor': '#bcc499','lineColor': '#f5dd9d','secondaryColor': '#506266','tertiaryColor': '#7b8f8a'}}
   }%%
   graph LR
     s((Source)) == X1 X2 X3... ==> en["Encoder<br>(Analog<br>Modulator)"]
@@ -66,6 +56,7 @@ Information Theory is all about **Quantification of Information**. When analyzin
 ## Shannon's View
 
 **Metrics: $R,\ \mathbb{P}(\hat{W}\neq W)$**
+
 ![alt text](Lec1-1.png)
 
 - Mathemtical Abstraction of Communication Problem
@@ -76,6 +67,7 @@ Information Theory is all about **Quantification of Information**. When analyzin
 ## Compression 
 
 **Goal: $\hat{X}=X$**
+
 ![alt text](Lec1-2.png)
 
 Suppose we want to compress a message in $\mathcal{A}=\{A,B,C,D\}$
@@ -160,7 +152,9 @@ This method of introducing redundancy allows us to deal with $\leq\ 1$ bit flips
 > Note: $P_e\approx 3p^2$ when $p$ is small<br>
 > e.g. $p = 10\%,\ P_e = 0.028\approx 3\%$
 
-**Caveat:** $Rate = \frac{source\ bits}{\#\ channel\ use} = \frac{1}{3}$
+**Caveat:** 
+
+$Rate = \frac{source\ bits}{\#\ channel\ use} = \frac{1}{3}$
 
 > For $R_n,\ Rate\ =\ \frac{1}{n}$
 >
@@ -177,8 +171,8 @@ This method of introducing redundancy allows us to deal with $\leq\ 1$ bit flips
 </center>
 
 There is a a value of the **Channel Capacity C,** such that
-$$\{\substack{\ rate<C,\ \exists\ code\ s.t\ P_e\to0 \\ \\
-rate>C,\nexists\ code\ s.t\ P_e\to0}$$
+
+$$\{\substack{\ rate<C,\ \exists\ code\ s.t\ P_e\to0 \\ \\rate>C,\nexists\ code\ s.t\ P_e\to0}$$
 
 ## Computation Complexity (Kolmogorov)
 
@@ -206,15 +200,11 @@ $$Entropy\leq\frac{\exists[k(x_1x_2\dotso x_n)]}{n}\leq Entropy + \frac{2log_2n}
 **Key Idea:** Treat as compression Problem
 
 ```mermaid
-block-beta
-  P space U space X space C["Compress"] space Z["P*"]
-  P-->U U-->X X-->C C-->Z
-  class F
-
-  classDef color fill:#74A,stroke:#333;
-  class P color
-  class X color
-  class Z color
+  %%{init: {'theme':'base',
+    'themeVariables': {'primaryColor': '#92a68a','primaryTextColor': '#fff','primaryBorderColor': '#bcc499','lineColor': '#f5dd9d','secondaryColor': '#506266','tertiaryColor': '#7b8f8a'}}
+  }%%
+  graph LR
+    P[P] ==> U[U] ==> X[X] ==> C[Compress] ==> Z[P*]
 ```
 
 ## Statistics and Machine Learning
