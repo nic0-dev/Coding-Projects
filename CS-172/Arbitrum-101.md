@@ -17,7 +17,7 @@ Rollups executes transaction, and every transaction ther is a state data. This p
 ## Advantages and Disadvantages of Optimistic Rollups
 Advantages:
 - Faster
-- Cheaoer
+- Cheaper
 - Secured by Layer 1
 
 Disadvantages:

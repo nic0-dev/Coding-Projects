@@ -22,12 +22,10 @@ block-beta
     space de["Decoder<br>(Analog<br>Demodulator)"]
     space d(("Destination"))
     
-    s-->en en-->c c-->de de-->d
-
-    classDef color fill:#74A,stroke:#333;
-    class s color
-    class d color
-    class c color
+    s-->en
+    en-->c
+    c-->de
+    de-->d
 ```
 
 ## **Given by Nature/Application**
