@@ -71,7 +71,7 @@ Information Theory is all about **Quantification of Information**. When analyzin
 ![alt text](Lec1-2.png)
 
 Suppose we want to compress a message in $\mathcal{A}=\{A,B,C,D\}$
-- 4 Possible messages $\rArr$ need $\mathcal{l}\geq 2$ bits
+- 4 Possible messages => need $\mathcal{l}\geq 2$ bits
   - In general, we need **$\mathcal{l}\geq log_2 (|\mathcal{A}|)$** bits<br>where $|\mathcal{A}|$ is the set cardinality
 
 <center>
@@ -154,7 +154,7 @@ This method of introducing redundancy allows us to deal with $\leq\ 1$ bit flips
 
 **Caveat:** 
 
-$Rate = \frac{source\ bits}{\#\ channel\ use} = \frac{1}{3}$
+$Rate = \frac{source\ bits}{\# \ channel\ use} = \frac{1}{3}$
 
 > For $R_n,\ Rate\ =\ \frac{1}{n}$
 >
