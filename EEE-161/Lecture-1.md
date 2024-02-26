@@ -15,25 +15,10 @@ Information Theory is all about **Quantification of Information**. When analyzin
 **Goal: $W={\hat{W}}$**
 
 ```mermaid
-block-beta
-    s(("Source"))
-    space en["Encoder<br>(Analog<br>Modulator)"]
-    space c[("Channel")]
-    space de["Decoder<br>(Analog<br>Demodulator)"]
-    space d(("Destination"))
-    
-    s-->en
-    en-->c
-    c-->de
-    de-->d
-```
-
-```mermaid
-graph TD;
-    A-->B;
-    A-->C;
-    B-->D;
-    C-->D;
+  graph LR
+    s((Source)) -- X1 X2 X3... --> en["Encoder<br>(Analog<br>Modulator)"]
+    en --> c[(Channel)] --> de["Decoder<br>(Analog<br>Demodulator)"]
+    de -- Y1 Y2 Y3... --> d(("Destination"))
 ```
 
 ## **Given by Nature/Application**
