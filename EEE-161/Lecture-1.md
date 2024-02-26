@@ -28,6 +28,14 @@ block-beta
     de-->d
 ```
 
+```mermaid
+graph TD;
+    A-->B;
+    A-->C;
+    B-->D;
+    C-->D;
+```
+
 ## **Given by Nature/Application**
 
 **1. Source**
