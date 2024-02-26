@@ -15,11 +15,23 @@ Information Theory is all about **Quantification of Information**. When analyzin
 **Goal: $W={\hat{W}}$**
 
 ```mermaid
-  %%{init: {'theme':'forest'}}%%
+  %%{
+    init: {
+      'theme':'base',
+      'themeVariables': {
+        'primaryColor': '#92a68a',
+        'primaryTextColor': '#fff',
+        'primaryBorderColor': '#bcc499',
+        'lineColor': '#f5dd9d',
+        'secondaryColor': '#506266',
+        'tertiaryColor': '#7b8f8a'
+      }
+    }
+  }%%
   graph LR
-    s((Source)) -- X1 X2 X3... --> en["Encoder<br>(Analog<br>Modulator)"]
-    en --> c[(Channel)] --> de["Decoder<br>(Analog<br>Demodulator)"]
-    de -- Y1 Y2 Y3... --> d(("Destination"))
+    s((Source)) == X1 X2 X3... ==> en["Encoder<br>(Analog<br>Modulator)"]
+    en ==> c[(Channel)] ==> de["Decoder<br>(Analog<br>Demodulator)"]
+    de == Y1 Y2 Y3... ==> d(("Destination"))
 ```
 
 ## **Given by Nature/Application**
