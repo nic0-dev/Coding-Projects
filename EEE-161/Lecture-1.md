@@ -15,6 +15,7 @@ Information Theory is all about **Quantification of Information**. When analyzin
 **Goal: $W={\hat{W}}$**
 
 ```mermaid
+  %%{init: {'theme':'forest'}}%%
   graph LR
     s((Source)) -- X1 X2 X3... --> en["Encoder<br>(Analog<br>Modulator)"]
     en --> c[(Channel)] --> de["Decoder<br>(Analog<br>Demodulator)"]
