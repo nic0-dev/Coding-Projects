@@ -1,0 +1,11 @@
+[ERROR] Command not found!
+[ERROR] Item not classified!
+[ERROR] Price error!
+[ERROR] Weight error!
+[SYSTEM] Item successfully added!
+[ERROR] Command not found!
+------GROCERY CART------
+1: Beverage
+Total price: Php 150.00
+Total weight: 0.50 kg
+------------------------

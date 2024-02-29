@@ -174,6 +174,7 @@ There is a a value of the **Channel Capacity C,** such that
 
 $$\{\substack{\ rate<C,\ \exists\ code\ s.t\ P_e\to0 \\ \\rate>C,\nexists\ code\ s.t\ P_e\to0}$$
 
+
 ## Computation Complexity (Kolmogorov)
 
 > Kolmogorov, Chaitin, and Solomonoff put forth the idea that the complexity of a string of data can be defined by the ***length of the shortest binary computer program for computing the string***. Thus, the complexity is the **minimal description length**. 
@@ -196,6 +197,9 @@ Suppose $P$ is random, $X=\mathcal{U}(P)$ is also random. Where $\mathcal{U}(P)$
 If $X=x_1x_2x_3\dotso x_n,$ where $x_i\ 's$ are I.I.D., we can bound the average $k(x)$:
 
 $$Entropy\leq\frac{\exists[k(x_1x_2\dotso x_n)]}{n}\leq Entropy + \frac{2log_2n}{n} + \frac{C}{n}$$
+
+$$\[\left\{\begin{array}{ll}\text{rate} < C, & \exists \text{ code s.t. } P_e \to 0 \\
+\text{rate} > C, & \nexists \text{ code s.t. } P_e \to 0\end{array}\right.\]$$
 
 **Key Idea:** Treat as compression Problem
 

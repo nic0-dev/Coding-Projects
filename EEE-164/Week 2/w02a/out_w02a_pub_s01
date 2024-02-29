@@ -1,0 +1,14 @@
+Player #1:
+Name: MyPlayer_02
+Item: 3x potion
+----------LOG----------
+New position: -1
+New position: -2
+New position: -1
+New position: 0
+New position: 1
+New position: 2
+Player used <potion>. 2x of <potion> remains.
+New position: 3
+Player used <potion>. 1x of <potion> remains.
+New position: 2

@@ -1,0 +1,9 @@
+1000.00
+2
+addd coke 150 0.5
+add cok3 15O O.S
+add coke 15O O.S 
+add coke 150 O.S 
+add coke 150 0.5 
+show_information
+show_info

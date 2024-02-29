@@ -1,0 +1,17 @@
+750.50
+11
+show_info
+remove 11
+add pork 200 0.72
+remov3 2
+add battery 55 0.1
+add sprite 70 B
+add royal 70 0.1
+add mango 400 2.0
+show_info
+remove 3
+add soap 50 5.1
+add calamansi 10 10
+add banana 40.5 5         
+add banana 20.5 2.5     
+show_info

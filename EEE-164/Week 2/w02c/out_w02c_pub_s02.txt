@@ -1,0 +1,33 @@
+------GROCERY CART------
+Total price: Php 0.00
+Total weight: 0.00 kg
+------------------------
+[ERROR] Index does not exist!
+[SYSTEM] Item successfully added!
+[ERROR] Command not found!
+[SYSTEM] Item successfully added!
+[ERROR] Weight error!
+[SYSTEM] Item successfully added!
+[SYSTEM] Item successfully added!
+------GROCERY CART------
+1: Meat
+2: Electronics
+3: Beverage
+4: Fruits
+Total price: Php 725.00
+Total weight: 2.92 kg
+------------------------
+[SYSTEM] Item removed!
+[SYSTEM] Item successfully added!
+[ERROR] Item not classified!
+[SYSTEM] Maximum weight reached! Item unsuccessfully added.
+[SYSTEM] Item successfully added!
+------GROCERY CART------
+1: Meat
+2: Electronics
+3: Fruits
+4: Cleaners
+5: Fruits
+Total price: Php 725.50
+Total weight: 10.42 kg
+------------------------
