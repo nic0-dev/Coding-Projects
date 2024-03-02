@@ -40,9 +40,10 @@ impl StudentEnrollInfo {
             }
         }
         if !unsatisfied_courses.is_empty() {
-            println!("{}", unsatisfied_courses.join(" "));
+            print!("{}", unsatisfied_courses.join(" "));
+            return false;
         }
-        return false;
+        return true;
     }
 }
 
@@ -81,6 +82,7 @@ fn main() {
                 _ => {}
             }
         }
+        if t > 1 { print!("\n") };
         println!("Student #{}:", t);
         println!("Record for SN {}", sn);
         println!("    Is eligible? {}", if a_student.is_eligible { "YES" } else { "NO" });

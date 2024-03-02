@@ -97,7 +97,6 @@ fn main() {
                     } else {
                         println!("Cannot use item as player does not have one.");
                     }
-                    
                 }
             }
         }   
