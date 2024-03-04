@@ -79,7 +79,6 @@ impl SmartCart{
             for i in pivot..self.current_size - 1 {   // Shift items to the left
                 self.items[i] = self.items[i + 1];
             }
-
             self.items[self.current_size - 1] = GroceryItem { price: 0.0, weight: 0.0, item: None };
             self.current_size -= 1;
             println!("[SYSTEM] Item removed!");
@@ -88,7 +87,7 @@ impl SmartCart{
 
     fn show_info(self){
         println!("------GROCERY CART------");
-        for i in 0..=self.current_size {
+        for i in 0..self.current_size {
             let _ = match self.items[i].item {
                 Some(ItemType::Beverage) => println!("{}: Beverage", i+1),
                 Some(ItemType::Cleaners) => println!("{}: Cleaners", i+1),
