@@ -1,0 +1,11 @@
+10
+play
+add Hanggang sa Buwan
+add Never Gonna Give You Up
+add Perfect Night
+play
+add Never Gonna Give You Up
+play
+play
+play
+show_queue

@@ -1,0 +1,7 @@
+[BORROW] Item "tutubi" borrowed by "alice"!
+[TRANSFER] Item "tutubi" is already borrowed by requester "alice"!
+[TRANSFER] Item "tutubi" transfered from "alice" to "bob"!
+[TRANSFER] Item "tutubi" cannot be transferred as it is currently borrowed by "bob", not "alice"!
+[TRANSFER] Item "tutubi" cannot be transferred as it is currently borrowed by "bob", not "trudy"!
+[TRANSFER] Item "tutubi" transfered from "bob" to "trudy"!
+[UNBORROW] Item "tutubi" unborrowed from "trudy"!

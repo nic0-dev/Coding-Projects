@@ -1,0 +1,14 @@
+[BORROW] Item "key" borrowed by "alice"!
+[BORROW] Item "lock" borrowed by "bob"!
+[BINFO] Borrower(alice) [Registered 2019-03-04]
+    -----BORROWED ITEMS-----
+    LentItem(key) [Acquired 2020-03-04] [Borrowed by alice]
+[BINFO] Borrower(bob) [Registered 2019-03-05]
+    -----BORROWED ITEMS-----
+    LentItem(lock) [Acquired 2021-05-20] [Borrowed by bob]
+[BORROW] Item "lock" cannot be borrowed by "alice" as it currently borrowed by "bob"!
+[BORROW] Item "lock" already borrowed by requester and current borrower "bob"!
+[UNBORROW] Item "lock" unborrowed from "bob"!
+[BINFO] Borrower(bob) [Registered 2019-03-05]
+    -----BORROWED ITEMS-----
+    NONE

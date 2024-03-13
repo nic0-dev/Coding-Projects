@@ -174,5 +174,8 @@ fn main(){
     }
 }
 
+fn buildings () {
+    
+}
 // cat in_w02c_pub_s01.txt | ./w02c.exe | Out-File -Encoding UTF8 output.txt
 // Compare-Object (gc output.txt) (gc out_w02c_pub_s01.txt)

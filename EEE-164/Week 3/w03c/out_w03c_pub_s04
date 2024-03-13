@@ -1,0 +1,14 @@
+[BORROW] Item "a" borrowed by "alice"!
+[BORROW] Item "_aop" borrowed by "alice"!
+[BINFO] Borrower(alice) [Registered 2019-03-04]
+    -----BORROWED ITEMS-----
+    LentItem(_aop) [Acquired 2023-12-05] [Borrowed by alice]
+    LentItem(a) [Acquired 2023-11-05] [Borrowed by alice]
+[BORROW] Item "b" borrowed by "alice"!
+[BORROW] Item "123cdef" borrowed by "alice"!
+[BINFO] Borrower(alice) [Registered 2019-03-04]
+    -----BORROWED ITEMS-----
+    LentItem(123cdef) [Acquired 2023-11-12] [Borrowed by alice]
+    LentItem(_aop) [Acquired 2023-12-05] [Borrowed by alice]
+    LentItem(a) [Acquired 2023-11-05] [Borrowed by alice]
+    LentItem(b) [Acquired 2023-11-03] [Borrowed by alice]

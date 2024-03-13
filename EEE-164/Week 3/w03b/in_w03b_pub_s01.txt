@@ -1,0 +1,11 @@
+10
+show_queue
+add OMG
+add Mananatili
+add Aphrodite
+play
+play
+add Dumaloy
+show_queue
+add Raining in Manila
+play 

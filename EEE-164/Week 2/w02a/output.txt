@@ -1,14 +1,14 @@
 ﻿Player #1:
-Name: MyPlayer_02
-Item: 3x potion
+Name: MyPlayer
+Item: 5x bullets
 ----------LOG----------
 New position: -1
-New position: -2
-New position: -1
-New position: 0
-New position: 1
-New position: 2
-Player used <potion>. 2x of <potion> remains.
-New position: 3
-Player used <potion>. 1x of <potion> remains.
-New position: 2
+Player used <bullets>. 4x of <bullets> remains.
+Player used <bullets>. 3x of <bullets> remains.
+Player used <bullets>. 2x of <bullets> remains.
+Player used <bullets>. 1x of <bullets> remains.
+Player used <bullets>. It is now gone
+Player #2:
+Name: MyPlayer
+Item: NONE
+----------LOG----------

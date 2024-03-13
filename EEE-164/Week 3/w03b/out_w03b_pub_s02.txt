@@ -1,0 +1,10 @@
+Queue is empty! No media to play...
+Successfully added Hanggang sa Buwan by Kenaniah to the queue!
+Successfully added Never Gonna Give You Up by Rick Astley to the queue!
+Successfully added Perfect Night by LE SSERAFIM to the queue!
+Now playing: Hanggang sa Buwan by Kenaniah
+Successfully added Never Gonna Give You Up by Rick Astley to the queue!
+Now playing: Never Gonna Give You Up by Rick Astley
+Now playing: Perfect Night by LE SSERAFIM
+Now playing: Never Gonna Give You Up by Rick Astley
+No media in queue.

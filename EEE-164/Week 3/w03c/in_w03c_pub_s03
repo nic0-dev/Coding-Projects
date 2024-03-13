@@ -1,0 +1,14 @@
+3
+2019-03-04 alice
+2019-03-05 bob
+2019-12-31 trudy
+1
+2023-11-05 tutubi
+7
+b tutubi alice
+t tutubi alice alice
+t tutubi alice bob
+t tutubi alice bob
+t tutubi trudy bob
+t tutubi bob trudy
+u tutubi

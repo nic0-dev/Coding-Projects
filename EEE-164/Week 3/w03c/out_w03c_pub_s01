@@ -1,0 +1,9 @@
+[BINFO] Borrower(carl_a) [Registered 2024-01-01]
+    -----BORROWED ITEMS-----
+    NONE
+[BINFO] Borrower "lester" not found!
+[IINFO] LentItem(bedsheet) [Acquired 2020-01-05]
+[BORROW] Item "phone" borrowed by "carl_b"!
+[BINFO] Borrower(carl_b) [Registered 2024-03-02]
+    -----BORROWED ITEMS-----
+    LentItem(phone) [Acquired 2020-12-24] [Borrowed by carl_b]

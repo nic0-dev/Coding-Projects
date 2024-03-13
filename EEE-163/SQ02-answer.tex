@@ -1,13 +1,35 @@
-\documentclass[12pt]{report}
+\documentclass{article}
+\usepackage{listings} % Add this to your preamble
 
-\usepackage{lipsum}
-
-\title{Short Quiz Answers}
 
 \begin{document}
 
 \section{SQ02}
 
-\textnormal{Hello}
+Most hotels and tourist establishments set up shop along Manila Bay, the body of water facing the capital of the Philippines. 
+As these establishments increase in number, so are the heights of their buildings wanting to have a clear view of the bay. 
+Let's look at one slice of a block of buildings. These buildings are drawn from left to right, with the rightmost portion being the Manila Bay. 
+A building has a clear view if all buildings to the right of it are shorter. To simulate the buildings and pick those that have a clear 
+view, we have created a function \texttt{get\_good\_bldgs} that accepts the list of heights of buildings drawn from left to right and returns a 
+list of the buildings that have a clear view of Manila Bay. A possible implementation of this function in Python is shown below.
+
+\begin{lstlisting}[language=Python, breaklines=true]
+    # Represented as a list
+    # bldgs[0] is the leftmost building
+    bldgs = [2, 4, 5, 5, 4, 3, 2, 1]
+
+    def get_good_bldgs(bldgs):
+        good_bldgs_stk = []
+
+        for each_bldg in bldgs:
+            while len(good_bldgs_stk) >= 1 and each_bldg >= good_bldgs_stk[-1]:
+                good_bldgs_stk.pop()
+
+            good_bldgs_stk.append(each_bldg)
+
+        return good_bldgs_stk
+
+    get_good_bldgs(bldgs)
+\end{lstlisting}
 
 \end{document}

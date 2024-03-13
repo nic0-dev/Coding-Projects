@@ -1,0 +1,16 @@
+3
+2019-03-04 alice
+2019-03-05 bob
+2019-12-31 trudy
+2
+2020-03-04 key
+2021-05-20 lock
+8
+b key alice
+b lock bob
+bi alice
+bi bob
+b lock alice
+b lock bob
+u lock
+bi bob
