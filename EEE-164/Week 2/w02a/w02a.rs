@@ -6,7 +6,7 @@ struct Player {
     item: Option <PlayerItem>,      // Optional Item of the player
 }
 
-struct PlayerItem { c
+struct PlayerItem { 
     name: String,                   // Item Name
     item_type: PlayerItemQtyType,   // Type and Quantity of the Item
 }

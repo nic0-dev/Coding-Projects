@@ -2,30 +2,73 @@ use std::io;
 use std::fmt;
 use std::collections::HashMap;
 
-// TODO: Create the following structs according to the specs here
-// - SplitDate
-// - LentItem
-// - Borrower
+#[derive(PartialEq)]
+struct SplitDate {
+    year: u64,
+    month: u8,
+    day: u8,
+}
 
-impl LentItem {
-    // TODO: Add the following LentItem methods according to the specs here.
-    //       Note that you may need to add lifetime annotations to some or all
-    //       of them.
-    // - new
-    // - borrow
-    // - unborrow
-    // - transfer
+struct LentItem<'a> {
+    name: String,
+    acquire_date: SplitDate,
+    borrowed_by: Option<&'a Borrower>,
+}
+
+impl<'a> LentItem<'a> {
+    fn new(name: String, year: u64, month: u8, day: u8) -> Self {
+        LentItem {
+            name,
+            acquire_date: SplitDate { year, month, day },
+            borrowed_by: None,
+        }
+    }
+
+    fn borrow(&mut self, to: &'a Borrower) -> Option<&'a Borrower> {
+        if self.borrowed_by.is_none() {
+            self.borrowed_by = Some(to);
+            None
+        } else {
+            self.borrowed_by
+        }
+    }
+    fn unborrow(&mut self) -> Option<&'a Borrower> {
+        self.borrowed_by.take()
+    }
+    fn transfer(&mut self, from: &'a Borrower, to: &'a Borrower) -> (Option<&'a Borrower>, Option<&'a Borrower>) {
+        if let Some(current_borrower) = self.borrowed_by {
+            if current_borrower == to {
+                return (Some(to), None);
+            } else if current_borrower == from {
+                self.borrowed_by = Some(to);
+                return (Some(from), Some(to));
+            } else {
+                return (Some(current_borrower), None);
+            }
+        }
+        (None, None)
+    }
+}
+
+#[derive(PartialEq)]
+struct Borrower {
+    name: String,
+    reg_date: SplitDate,
 }
 
 impl Borrower {
-    // TODO: Add the following Borrower methods according to the specs here
-    //       Note that you may need to add lifetime annotations to some or all
-    //       of them.
-    // - new
-    // - borrowed_items
-
-    // HINT: Read https://rust-lang-nursery.github.io/rust-cookbook/algorithms/sorting.html
-    //       to know more on how to sort a vector of structs
+    fn new(name: String, year: u64, month: u8, day: u8) -> Self {
+        Self {
+            name,
+            reg_date: SplitDate { year, month, day },
+        }
+    }
+    fn borrowed_items<'a>(&self, items: &Vec<&'a LentItem<'a>>) -> Vec<&'a LentItem<'a>> {
+        items.iter()
+             .filter(|&item| item.borrowed_by.map_or(false, |b| b.name == self.name))
+             .cloned()
+             .collect()
+    }
 }
 
 // This has been implemented for you as an example
@@ -37,10 +80,19 @@ impl fmt::Display for Borrower {
 
 impl fmt::Display for LentItem <'_> {
     // TODO: Implement the fmt() method for this struct according to the specs
+    fn fmt(&self, f: &mut fmt::Formatter<'_>) -> fmt::Result {
+        match &self.borrowed_by {
+            Some(borrower) => write!(f, "LentItem({}) [Acquired {}] [Borrowed by {}]", self.name, self.acquire_date, borrower.name),
+            None => write!(f, "LentItem({}) [Acquired {}]", self.name, self.acquire_date),
+        }
+    }
 }
 
 impl fmt::Display for SplitDate {
     // TODO: Implement the fmt() method for this struct according to the specs
+    fn fmt(&self, f: &mut fmt:2:Formatter<'_>) -> fmt::Result {
+        write!(f, "{:04}-{:02}-{:02}", self.year, self.month, self.day)
+    }
 }
 
 // No need to edit starting from this line!
@@ -198,7 +250,7 @@ fn main() {
                             println!("[BORROW] Item \"{}\" already borrowed by requester and current borrower \"{}\"!", item.name, borrower.name);
                         }
                         else {
-                            println!("[BORROW] Item \"{}\" cannot be borrowed by \"{}\" as it is currently borrowed by \"{}\"!", item.name, borrower.name, old_borrower.name);
+                            println!("[BORROW] Item \"{}\" cannot be borrowed by \"{}\" as it currently borrowed by \"{}\"!", item.name, borrower.name, old_borrower.name);
                         }
                     }
                     else {
@@ -223,3 +275,6 @@ fn main() {
         }
     }
 }
+
+// cat in_w03c_pub_s01 | ./w03c.exe | Out-File -Encoding UTF8 output.txt
+// Compare-Object (gc output.txt) (gc out_w03c_pub_s01)
