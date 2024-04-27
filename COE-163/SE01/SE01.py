@@ -17,10 +17,9 @@ t = 1000
 
 # Timer start
 start_t = time.time()
-
 for _ in range(t):
     find_min_combi(n, s, e)
-
+print(find_min_combi(n,s,e))
 # Timer end
 stop_t = time.time()
 

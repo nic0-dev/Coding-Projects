@@ -1,0 +1,335 @@
+1. What distinguishes PaaS from IaaS ?
+2 points
+CSP provides a service beyond IaaS VM, VNetwork and VDisk
+CSP uses internal VM, Network and DISK to provide a service
+CSP uses 3rd party appliances to provide the service
+CSP can allow PaaS to be available over the Internet
+2. What was the original PaaS offering in Cloud Computing History ?
+*
+2 points
+Google FIlesystem
+Google Spanner Database
+AWS Simple Storage Service or S3
+AW Elastic Compute Cloud or EC2
+3. A CSP provides a Storage PaaS through a
+*
+2 points
+Single VM
+Distributed System across regions
+Distributed System in a region
+HA VM across availability domains
+4. A type of storage PaaS provided by a CSP is
+*
+2 points
+Block storage
+Fileystem storage
+Object storage
+Image Repository
+5.  A limitation of Object Storage is
+*
+2 points
+No directories for objects
+Eventual consistency of objects
+No locking of objects
+All of the above
+6. What does a CSP guarantee about Object Storage ?
+*
+2 points
+Durability (no loss)
+Infinite Capacity
+Stored  in one region
+Stored in all regions
+7. What is an innovative feature of Cloud Object storage?
+*
+2 points
+Access via the Internet
+No content type or internal structure for an object
+Access via a standard API using REST
+No limit in size
+8. What is used as container for objects in a CSP ?
+*
+2 points
+Directory
+Bucket
+Both of the above
+Repository
+9. What special type of object storage requires an appreciable time (minutes to hours) before being available for reading ?
+*
+2 points
+Any object
+Archive object
+Secondary storage
+None of the above
+10. An important difference of filesystem storage from object storage is
+*
+2 points
+POSIX compliance for permissions
+Use of directories (and hierarchy) allowed
+Concurrency control such as locking
+All of the above
+11. An on-premise DIY equivalent for Filesystem Storage is
+*
+2 points
+Windows share
+Linux NFS
+NAS
+SAN
+12. An example of Archive Object storage is
+*
+2 points
+AWS S3
+AWS Glacier
+Azure BLOB
+None of the above
+13. A difference of object from archive storage is
+*
+2 points
+Added cost of retrieving an object from archive
+Cost
+Time required to retrieve object from archive before it can be read
+All of the above
+14. CSP backup service normally uses what type of object storage ?
+*
+2 points
+Object storage
+Archive storage
+Both of the above
+Filesystem storage
+15. The original database service provided by CSPs is
+*
+2 points
+NoSQL
+Relational
+Hierarchy
+None of the above
+16. An example of SQL relational database service provided by a CSP is
+*
+2 points
+AWS RDS
+Oracle Autonomous Database
+Both of the above
+AWS Dynamo DB
+17. The Openstack object storage service is
+*
+2 points
+Cinder
+Ceph
+Swift
+Nova
+18. An example of Network PaaS is
+*
+2 points
+OCI Load balancer service
+AWS Route 53
+OCI VCN
+AWS VPC
+19. An example of Data Warehouse service by a CSP is
+*
+2 points
+AWS RDS
+Oracle Autonomous Database OLTP
+AWS Redshift
+Oracle MySQL Database
+20 An example of DNS as a service by a CSP is
+*
+2 points
+AWS EMR
+AWS Route 53
+AWS Lambda
+AWS Glue
+21. Which of the following is true about objects ?
+*
+2 points
+Object buckets are part of the object name
+Object name can contain a '/' to simulate directories
+Objects can located outside a bucket
+Object buckets are similar to directories
+22.  The main advantage of Filesystem storage PaaS service over DIY NFS or NAS is
+*
+2 points
+Resizable storage size
+Support for hierarchical directories
+Support for user/group permissions and locking
+Storage of any file type
+23. An example of Low Code application development PaaS is
+*
+2 points
+AWS Kinesis
+Oracle APEX
+AWS Cloud9
+None of the above
+24. An example of Analytics Service PaaS is
+*
+2 points
+AWS Athena
+AWS Kinesis
+AWS EMR
+None of the above
+25. An example of Big Data Service PaaS is
+*
+2 points
+AWS Athena
+AWS EMR
+AWS Glue
+AWS Fargate
+26. One of the main issues with PaaS is
+*
+2 points
+Cost
+Data Privacy
+Scalability
+High Availability
+27. The main advantage of CSP PaaS over DIY PaaS is 
+*
+2 points
+Cost
+High Availability
+Less effort to setup and manage
+None of the above
+28. An example of PaaS Automation using orchestration and configuration files is
+*
+2 points
+Consul
+Terraform
+OCI Resource Manager
+None of the above
+29. Oracle database allows for Database PaaS by using
+*
+2 points
+Real Application Cluster
+Data Sharding
+Pluggable Database
+None of the above
+30. Examples of compute image PaaS is
+*
+2 points
+Openstack Glance
+AWS Marketplace
+OCI Marketplace
+None of the above
+31. A web server compute instance is to be setup into a cluster for HA. A load balancer front end will send requests in round robin to two web servers that will share common storage for html and image files. What is the easiest way to implement this common storage ?
+*
+2 points
+Use a shared block device for the web instances and setup a clustered filesystem on it
+Setup a PaaS filesystem storage that is mounted on both web servers
+Setup a PaaS object bucket storage and share the bucket on both web servers
+Create an instance to be an NFS server  sharing a directory and mount this on both servers
+32. A media company wants to setup a repository of its video and image files in the cloud. An administrator will control uploads and allow read access to the files from authenticated employees. What is the easiest way to do this ?
+*
+2 points
+Use archive storage for the files with a public bucket for all employees.
+Use object storaage for the files with a public bucket for all employees.
+Use object storage for the files with a private bucket for all employees
+Use filesystem storage for the files and mount on a public instance web server,
+33. A group of applications running on varied compute instances requires a common database for storing data. The database must be HA and easily scaled to handle a lot of transactions. What is the easiest way to do this ?
+*
+2 points
+Setup an Oracle RAC database using two compute instances and shared disks
+Setup a MySQL database using one compute instance that is replicated to anothe region
+Setup a Postgres database on all application compute instance and replicate between them
+Use a common database PaaS such as AWS RDS for access by all app instances
+34. A main difference between NoSQL and Relational database is
+*
+2 points
+Eventual consistency in NoSQL vs ACID in relational
+Key value data in NoSQL vs Tables in relational
+No need for SQL in NoSQL vs SQL in relational
+All of the above
+35. The difference between a Data Warehouse and a Data Lake is
+*
+2 points
+Warehouse uses structured data
+Data Lake uses structured data
+Data Warehouse can store log data
+Data Lake cannot store structure data
+36. AWS Aurora database uses what algorithm for controlling writes to replicas ?
+*
+2 points
+Redo logs
+Locking
+Write quorum
+Read quorum
+39. AWS Aurora engine uses what relational engine as its front end ?
+*
+2 points
+MySQL only
+Postgres only
+MySQL or Postgres
+Dynamo DB
+40. What options are possible with migrating on-premis databases to cloud database PaaS ?
+*
+2 points
+BYOL only
+License included only
+BYOL or License included
+None of the above
+41. A Load Balancer PaaS can be configured to
+*
+2 points
+Use a custom algorithm for spreading requests
+Dynamically add or remove back end servers
+Use more than one public IP for listening for requests
+Shut off backend servers when the request load is low
+42. With DNS as a service it is possible to
+*
+2 points
+Translate domain access to one or more compute instances
+Translate domain access to compute instances in one region
+Translate domain access to compute instances in any region
+Translate domain access to only one compute instance
+43. The policy for a DNS as a service to map a domain request depending on the requesting client's country of origin is called
+*
+2 points
+Regional policy
+Geolocation policy
+Routing policy
+None of the above
+44. An example of a cloud application development PaaS is
+*
+2 points
+Oracle Visual Builder
+AWS Beanstalk
+Oracle Application Express
+All of the above
+45. Which of the following is not a cloud database service ?
+*
+2 points
+MongoDB
+Cloud Foundry
+Cockroach DB
+SAP Hana
+46. GlusterFS allows storage that is similar to RAID 1 mirrored disks by using
+*
+2 points
+Distributed block volumes
+Replicated volumes
+Dispersed volumes
+None of the above
+47. Oracle APEX Low Code Paas allows multiple tenancy by using
+*
+2 points
+Schemas
+Workspaces
+Database users
+Oracle Database features
+48. PaaS automation is done by using an orchestration engine that
+*
+2 points
+Reads the configuration file for PaaS parameters and runs it
+Specifying PaaS parameters for a configuration
+Runs a script to get PaaS paramaters and status
+None of the above
+49. The Openstack VM Image PaaS is called
+*
+2 points
+Nova
+Cinder
+Glance
+Ceph
+50. The Openstack object storage PaaS is called
+*
+2 points
+Cinder
+Both of the below
+Swift
+Ceph
