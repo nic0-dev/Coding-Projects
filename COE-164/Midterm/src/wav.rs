@@ -68,8 +68,6 @@ pub enum WaveReaderError {
     ChunkTypeError,
     DataAlignmentError,
     ReadError,
-    ReadError1,
-    ReadError2,
 }
 
 impl WaveReader {
@@ -83,7 +81,7 @@ impl WaveReader {
     /// happens.
     pub fn open_pcm(file_path: &str) -> Result <PCMWaveInfo, WaveReaderError> {
         // Open the File
-        let mut file = File::open(Path::new(file_path)).map_err(|_| WaveReaderError::ReadError1)?;
+        let mut file = File::open(Path::new(file_path)).map_err(|_| WaveReaderError::ReadError)?;
 
         // 1. read_riff header
         let riff_chunk = Self::read_riff_chunk(&mut file)?;
@@ -92,7 +90,7 @@ impl WaveReader {
         // 3. read_data_chunk
         // The data chunk appears immediately after the format
         // The file handle should point to the start of a data chunk
-        let start_pos = file.stream_position().map_err(|_| WaveReaderError::ReadError2)?;
+        let start_pos = file.stream_position().map_err(|_| WaveReaderError::ReadError)?;
         let data_chunk = Self::read_data_chunk(start_pos, &fmt_chunk, file)?;
 
         // Return the PCMWaveInfo object
@@ -115,15 +113,19 @@ impl WaveReader {
     fn read_riff_chunk(fh: &mut File) -> Result <RiffChunk, WaveReaderError> {
         let mut riff_header = [0u8; 12];
         fh.read_exact(&mut riff_header).map_err(|_| WaveReaderError::ReadError)?;
-        if &riff_header[0..4] != [0x52, 0x49, 0x46, 0x46] { // 'RIFF'
+        if &riff_header[0..4] != [0x52, 0x49, 0x46, 0x46] && &riff_header[0..4] != [0x52, 0x49, 0x46, 0x58] { // 'RIFF'
             return Err(WaveReaderError::NotRiffError);
         } 
         if &riff_header[8..12] != [0x57, 0x41, 0x56, 0x45] { // 'WAVE'
-            return Err(WaveReaderError::NotRiffError);
+            return Err(WaveReaderError::NotWaveError);
         }
 
-        let file_size = LittleEndian::read_u32(&riff_header[4..8]);
         let is_big_endian = &riff_header[0..4] == [0x52, 0x49, 0x46, 0x58];   // RIFX
+        let file_size = if is_big_endian {
+            byteorder::BigEndian::read_u32(&riff_header[4..8])
+        } else {
+            LittleEndian::read_u32(&riff_header[4..8])
+        };
 
         Ok(RiffChunk {
             file_size,
@@ -217,8 +219,6 @@ impl fmt::Display for WaveReaderError {
             WaveReaderError::ChunkTypeError => "Chunk type error",
             WaveReaderError::DataAlignmentError => "Data alignment error",
             WaveReaderError::ReadError => "Error reading from file",
-            WaveReaderError::ReadError1 => "Error reading from file 1",
-            WaveReaderError::ReadError2 => "Error reading from file 2",
         })
     }
 }
