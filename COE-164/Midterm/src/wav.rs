@@ -1,10 +1,11 @@
-use core::fmt;
+// use core::fmt;
+use std::fmt;
 use std::fs::File;
 use std::path::Path;
 use std::error;
 use std::io::{self, Read, Seek, SeekFrom};
 
-use byteorder::{ByteOrder, LittleEndian};
+use byteorder::{ByteOrder, LittleEndian, ReadBytesExt};
 
 /// Represents a PCM WAV file
 pub struct PCMWaveInfo {
@@ -67,6 +68,8 @@ pub enum WaveReaderError {
     ChunkTypeError,
     DataAlignmentError,
     ReadError,
+    ReadError1,
+    ReadError2,
 }
 
 impl WaveReader {
@@ -79,7 +82,25 @@ impl WaveReader {
     /// Returns a `WaveReaderError` with the appropriate error if something
     /// happens.
     pub fn open_pcm(file_path: &str) -> Result <PCMWaveInfo, WaveReaderError> {
-        todo!();
+        // Open the File
+        let mut file = File::open(Path::new(file_path)).map_err(|_| WaveReaderError::ReadError1)?;
+
+        // 1. read_riff header
+        let riff_chunk = Self::read_riff_chunk(&mut file)?;
+        // 2. read_fmt format chunk
+        let fmt_chunk = Self::read_fmt_chunk(&mut file)?;
+        // 3. read_data_chunk
+        // The data chunk appears immediately after the format
+        // The file handle should point to the start of a data chunk
+        let start_pos = file.stream_position().map_err(|_| WaveReaderError::ReadError2)?;
+        let data_chunk = Self::read_data_chunk(start_pos, &fmt_chunk, file)?;
+
+        // Return the PCMWaveInfo object
+        Ok(PCMWaveInfo {
+            riff_header:riff_chunk,
+            fmt_header: fmt_chunk,
+            data_chunks: vec![data_chunk],
+        })
     }
 
     /// Read the RIFF header from a PCM WAV file
@@ -92,7 +113,22 @@ impl WaveReader {
     /// Returns a `WaveReaderError` with the appropriate error if something
     /// happens. This includes file read errors and format errors.
     fn read_riff_chunk(fh: &mut File) -> Result <RiffChunk, WaveReaderError> {
-        todo!();
+        let mut riff_header = [0u8; 12];
+        fh.read_exact(&mut riff_header).map_err(|_| WaveReaderError::ReadError)?;
+        if &riff_header[0..4] != [0x52, 0x49, 0x46, 0x46] { // 'RIFF'
+            return Err(WaveReaderError::NotRiffError);
+        } 
+        if &riff_header[8..12] != [0x57, 0x41, 0x56, 0x45] { // 'WAVE'
+            return Err(WaveReaderError::NotRiffError);
+        }
+
+        let file_size = LittleEndian::read_u32(&riff_header[4..8]);
+        let is_big_endian = &riff_header[0..4] == [0x52, 0x49, 0x46, 0x58];   // RIFX
+
+        Ok(RiffChunk {
+            file_size,
+            is_big_endian, 
+        })
     }
 
     /// Read the format chunk from a PCM WAV file
@@ -104,7 +140,38 @@ impl WaveReader {
     /// Returns a `WaveReaderError` with the appropriate error if something
     /// happens. This includes file read errors and format errors.
     fn read_fmt_chunk(fh: &mut File) -> Result <PCMWaveFormatChunk, WaveReaderError> {
-        todo!();
+        let mut fmt_header = [0u8; 24];
+        fh.read_exact(&mut fmt_header).map_err(|_| WaveReaderError::ReadError)?;
+        if &fmt_header[0..4] != [0x66, 0x6d, 0x74, 0x20] { // 'fmt '
+            return Err(WaveReaderError::ChunkTypeError);
+        }
+        let fsub_chunk_size = LittleEndian::read_u32(&fmt_header[4..8]);    // FSubchunkSize
+        if fsub_chunk_size != 16 {  // FSubchunkSize = 16 for PCM
+            return Err(WaveReaderError::DataAlignmentError);
+        }
+        let audio_fmt = LittleEndian::read_u16(&fmt_header[8..10]);         // AudioFmt
+        if audio_fmt != 0x01 {  // audio format = 1 for PCM
+            return Err(WaveReaderError::NotPCMError);
+        }
+
+        let num_channels = LittleEndian::read_u16(&fmt_header[10..12]);     // NumChs
+        let samp_rate = LittleEndian::read_u32(&fmt_header[12..16]);         // SampleRate
+        let byte_rate = LittleEndian::read_u32(&fmt_header[16..20]);        // ByteRate
+        let block_align = LittleEndian::read_u16(&fmt_header[20..22]);      // BlockAlign
+        let bps = LittleEndian::read_u16(&fmt_header[22..24]);              // BitDepth
+
+        if byte_rate != samp_rate * (num_channels as u32) * (bps as u32) / 8 {
+            return Err(WaveReaderError::DataAlignmentError);
+        }
+        if block_align != (num_channels as u16) * (bps as u16) / 8 {
+            return Err(WaveReaderError::DataAlignmentError);
+        }
+
+        Ok(PCMWaveFormatChunk {
+            num_channels,
+            samp_rate,
+            bps,
+        })
     }
 
     /// Read the data chunk from a PCM WAV file
@@ -119,7 +186,23 @@ impl WaveReader {
     /// Returns a `WaveReaderError` with the appropriate error if something
     /// happens. This includes file read errors and format errors.
     fn read_data_chunk(start_pos: u64, fmt_info: &PCMWaveFormatChunk, mut fh: File) -> Result <PCMWaveDataChunk, WaveReaderError> {
-        todo!();
+        fh.seek(SeekFrom::Start(start_pos)).map_err(|_| WaveReaderError::ReadError)?;
+
+        // Read data chunk header
+        let mut fmt_header = [0u8; 8];
+        fh.read_exact(&mut fmt_header).map_err(|_| WaveReaderError::ReadError)?;
+        if &fmt_header[0..4] != [0x64, 0x61, 0x74, 0x61] { // 'data'
+            return Err(WaveReaderError::ChunkTypeError);
+        }
+
+        let dsub_chunk_size = LittleEndian::read_u32(&fmt_header[4..8]);        // DSubChunkSize
+
+        // We use the file handle as is and wrap it in a BufReader.
+        Ok(PCMWaveDataChunk {
+            size_bytes: dsub_chunk_size,
+            format: *fmt_info,
+            data_buf: io::BufReader::new(fh),
+        })
     }
 }
 
@@ -127,26 +210,41 @@ impl error::Error for WaveReaderError {}
 
 impl fmt::Display for WaveReaderError {
     fn fmt(&self, f: &mut fmt::Formatter<'_>) -> fmt::Result {
-        todo!()
+        write!(f, "{}", match self {
+            WaveReaderError::NotRiffError => "Not a valid RIFF header",
+            WaveReaderError::NotWaveError => "Not a valid WAVE file",
+            WaveReaderError::NotPCMError => "Not a PCM format",
+            WaveReaderError::ChunkTypeError => "Chunk type error",
+            WaveReaderError::DataAlignmentError => "Data alignment error",
+            WaveReaderError::ReadError => "Error reading from file",
+            WaveReaderError::ReadError1 => "Error reading from file 1",
+            WaveReaderError::ReadError2 => "Error reading from file 2",
+        })
     }
 }
 
 impl From <io::Error> for WaveReaderError {
     fn from(_: io::Error) -> Self {
-        todo!("Convert an I/O error into a WaveReaderError")
+        WaveReaderError::ReadError
     }
 }
 
 impl fmt::Display for PCMWaveInfo {
     fn fmt(&self, f: &mut fmt::Formatter<'_>) -> fmt::Result {
-        todo!("Display a PCMWaveInfo struct in this format: WAVE File <FileSize> bytes, <BitDepth>-bit <NumChannels> channels, <SampleRate>Hz, <NumDataChunks> data chunks")
+        // WAVE File <FileSize> bytes, <BitDepth>-bit <NumChannels> channels, <SampleRate>Hz, <NumDataChunks> data chunks
+        write!(f, "WAVE File {} bytes, {}-bit {} channels, {}Hz, {} data chunks",
+            self.riff_header.file_size,
+            self.fmt_header.bps,
+            self.fmt_header.num_channels,
+            self.fmt_header.samp_rate,
+            self.data_chunks.len())
     }
 }
 
 impl PCMWaveFormatChunk {
     /// Get or calculate the byte rate of this PCM WAV file
     fn byte_rate(&self) -> u32 {
-        todo!();
+        self.samp_rate * (self.num_channels as u32) * (self.bps as u32) / 8
     }
 
     /// Get or calculate the block alignment of this PCM WAV file
@@ -155,23 +253,43 @@ impl PCMWaveFormatChunk {
     /// in bytes. An *inter-channel sample* is a sample with all of its
     /// channels collated together.
     fn block_align(&self) -> u16 {
-        todo!();
+        (self.num_channels as u16) * (self.bps as u16) / 8
     }
 }
 
 impl Iterator for PCMWaveDataChunk {
-    type Item = Vec <i64>;
+    type Item = Vec <i16>;
 
     fn next(&mut self) -> Option <Self::Item> {
-        todo!("Return one inter-channel sample at a time")
+        let mut sample = Vec::new();
+        for _ in 0..self.format.num_channels {
+            match self.data_buf.read_i16::<LittleEndian>() {
+                Ok(val) => sample.push(val),
+                Err(_) => return None,
+            }
+        }
+        Some(sample)
     }
 }
 
 impl Iterator for PCMWaveDataChunkWindow {
-    type Item = Vec <Vec <i64>>;
+    type Item = Vec <Vec <i16>>;
 
     fn next(&mut self) -> Option <Self::Item> {
-        todo!("Return self.chunk_size amount of inter-channel samples at a time")
+        // todo!("Return self.chunk_size amount of inter-channel samples at a time")
+        let mut batch = Vec::new();
+        for _ in 0..self.chunk_size {
+            if let Some(sample) = self.data_chunk.next() {
+                batch.push(sample);
+            } else {
+                break;
+            }
+        }
+        if batch.is_empty() {
+            None
+        } else {
+            Some(batch)
+        }
     }
 }
 
@@ -181,7 +299,10 @@ impl PCMWaveDataChunk {
     /// This method is used to get a *single* inter-channel
     /// sample from a data chunk.
     pub fn chunks_byte_rate(self) -> PCMWaveDataChunkWindow {
-        todo!();
+        PCMWaveDataChunkWindow {
+            chunk_size: 1,
+            data_chunk: self,
+        }
     }
 
     /// Consume a data chunk and get an iterator
@@ -192,7 +313,10 @@ impl PCMWaveDataChunk {
     /// return a `Vec` of size *at most* 44100 with each element as another `Vec`
     /// of size 2.
     pub fn chunks(self, chunk_size: usize) -> PCMWaveDataChunkWindow {
-        todo!();
+        PCMWaveDataChunkWindow {
+            chunk_size,
+            data_chunk: self,
+        }
     }
 }
 
