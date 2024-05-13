@@ -3,10 +3,10 @@
 #include <fstream>
 #include <string>
 #include <vector>
-#include <algorithm>
+#include <algorithm> 
+#include <cctype> 
 #include <cmath>
-#include <chrono>
-#include <iomanip> // Add this include for std::fixed and std::setprecision
+#include <chrono> 
 using namespace std;
 
 string movie_names[398];
@@ -31,10 +31,10 @@ void load_movie_data() {
             start = end + 1;
             int index = 0;
             while ((end = line.find(',', start)) != string::npos) {
-                genre_rating[row][index++] = stod(line.substr(start, end - start));
+                genre_rating[row][index++] = line[start] - '0';
                 start = end + 1;
             }
-            genre_rating[row][index] = stod(line.substr(start));
+            genre_rating[row][index] = line[start] - '0';
             row++;
         }
         file.close();
@@ -47,7 +47,7 @@ void load_user_data(int n) {
     int row = 0;
 
     if(file.is_open()) {
-        while (getline(file, line) && row < n)
+        while (getline(file, line) && row < n) 
             row++;
         size_t start = 0, end;
         int index = 0;
@@ -70,17 +70,17 @@ struct MovieData {
     this->name = name;
     this->index = index;
     this->rating = 0.0;
-    for (int i = 0; i < 20; ++i)
+    for (int i = 0; i < 20; ++i) 
         rating += genre_ratings[i] * user_ratings[i];
     }
 
     // operator for sorting by dot product (descending) and name (alphabetical)
     bool operator<(const MovieData& other) const {
-        const double epsilon = 1.0e-5;
+        const double epsilon = 1.0e-5; 
         if (fabs(rating - other.rating) > epsilon) {
             return rating > other.rating;
         }
-        return name < other.name;
+        return name < other.name; 
     }
 };
 
@@ -88,7 +88,9 @@ int main() {
     string user_id;
     cin >> user_id;
 
-    auto start_time1 = std::chrono::high_resolution_clock::now();
+    chrono::time_point<std::chrono::system_clock> start, end;
+    start = chrono::system_clock::now();
+
     load_movie_data();
     load_user_data(stoi(user_id.substr(1)));
 
@@ -100,8 +102,12 @@ int main() {
     for (int i = 0; i < 10; ++i) {
         cout << movies[i].name << "\n";
     }
-    auto end_time1 = std::chrono::high_resolution_clock::now();
-    std::chrono::duration<double> elapsed_seconds1 = end_time1 - start_time1;
-    std::cout << "Execution time with same length: " << std::fixed << std::setprecision(6) << elapsed_seconds1.count() << " seconds\n";
+
+    end = chrono::system_clock::now();
+ 
+    chrono::duration<double> elapsed_seconds = end - start;
+    time_t end_time = chrono::system_clock::to_time_t(end);
+ 
+    cout << "Elapsed time: " << elapsed_seconds.count() << "s\n";
     return 0;
 }

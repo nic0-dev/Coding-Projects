@@ -1,335 +1,349 @@
-1. What distinguishes PaaS from IaaS ?
+1. FaaS is offered for applications that
 2 points
-CSP provides a service beyond IaaS VM, VNetwork and VDisk
-CSP uses internal VM, Network and DISK to provide a service
-CSP uses 3rd party appliances to provide the service
-CSP can allow PaaS to be available over the Internet
-2. What was the original PaaS offering in Cloud Computing History ?
+Uses workflows
+Uses workflows and events
+Uses functions triggered by events in a workflow
+None of the above
+2. An example of event driven application is
 *
 2 points
-Google FIlesystem
-Google Spanner Database
-AWS Simple Storage Service or S3
-AW Elastic Compute Cloud or EC2
-3. A CSP provides a Storage PaaS through a
-*
-2 points
-Single VM
-Distributed System across regions
-Distributed System in a region
-HA VM across availability domains
-4. A type of storage PaaS provided by a CSP is
-*
-2 points
-Block storage
-Fileystem storage
-Object storage
-Image Repository
-5.  A limitation of Object Storage is
-*
-2 points
-No directories for objects
-Eventual consistency of objects
-No locking of objects
-All of the above
-6. What does a CSP guarantee about Object Storage ?
-*
-2 points
-Durability (no loss)
-Infinite Capacity
-Stored  in one region
-Stored in all regions
-7. What is an innovative feature of Cloud Object storage?
-*
-2 points
-Access via the Internet
-No content type or internal structure for an object
-Access via a standard API using REST
-No limit in size
-8. What is used as container for objects in a CSP ?
-*
-2 points
-Directory
-Bucket
+Payment processing
+Sensor device activation or trigger
 Both of the above
-Repository
-9. What special type of object storage requires an appreciable time (minutes to hours) before being available for reading ?
+Workflow sequencing
+3. An event driven application uses
 *
 2 points
-Any object
-Archive object
-Secondary storage
-None of the above
-10. An important difference of filesystem storage from object storage is
+Synchronous Messaging
+Asynchronous Messaging
+Combination of the above
+Queueing of events
+4. A possible architectures of event driven application is
 *
 2 points
-POSIX compliance for permissions
-Use of directories (and hierarchy) allowed
-Concurrency control such as locking
-All of the above
-11. An on-premise DIY equivalent for Filesystem Storage is
-*
-2 points
-Windows share
-Linux NFS
-NAS
-SAN
-12. An example of Archive Object storage is
-*
-2 points
-AWS S3
-AWS Glacier
-Azure BLOB
-None of the above
-13. A difference of object from archive storage is
-*
-2 points
-Added cost of retrieving an object from archive
-Cost
-Time required to retrieve object from archive before it can be read
-All of the above
-14. CSP backup service normally uses what type of object storage ?
-*
-2 points
-Object storage
-Archive storage
-Both of the above
-Filesystem storage
-15. The original database service provided by CSPs is
-*
-2 points
-NoSQL
-Relational
-Hierarchy
-None of the above
-16. An example of SQL relational database service provided by a CSP is
-*
-2 points
-AWS RDS
-Oracle Autonomous Database
-Both of the above
-AWS Dynamo DB
-17. The Openstack object storage service is
-*
-2 points
-Cinder
-Ceph
-Swift
-Nova
-18. An example of Network PaaS is
-*
-2 points
-OCI Load balancer service
-AWS Route 53
-OCI VCN
-AWS VPC
-19. An example of Data Warehouse service by a CSP is
-*
-2 points
-AWS RDS
-Oracle Autonomous Database OLTP
-AWS Redshift
-Oracle MySQL Database
-20 An example of DNS as a service by a CSP is
-*
-2 points
-AWS EMR
-AWS Route 53
-AWS Lambda
-AWS Glue
-21. Which of the following is true about objects ?
-*
-2 points
-Object buckets are part of the object name
-Object name can contain a '/' to simulate directories
-Objects can located outside a bucket
-Object buckets are similar to directories
-22.  The main advantage of Filesystem storage PaaS service over DIY NFS or NAS is
-*
-2 points
-Resizable storage size
-Support for hierarchical directories
-Support for user/group permissions and locking
-Storage of any file type
-23. An example of Low Code application development PaaS is
-*
-2 points
-AWS Kinesis
-Oracle APEX
-AWS Cloud9
-None of the above
-24. An example of Analytics Service PaaS is
-*
-2 points
-AWS Athena
-AWS Kinesis
-AWS EMR
-None of the above
-25. An example of Big Data Service PaaS is
-*
-2 points
-AWS Athena
-AWS EMR
-AWS Glue
-AWS Fargate
-26. One of the main issues with PaaS is
-*
-2 points
-Cost
-Data Privacy
-Scalability
-High Availability
-27. The main advantage of CSP PaaS over DIY PaaS is 
-*
-2 points
-Cost
-High Availability
-Less effort to setup and manage
-None of the above
-28. An example of PaaS Automation using orchestration and configuration files is
-*
-2 points
-Consul
-Terraform
-OCI Resource Manager
-None of the above
-29. Oracle database allows for Database PaaS by using
-*
-2 points
-Real Application Cluster
-Data Sharding
-Pluggable Database
-None of the above
-30. Examples of compute image PaaS is
-*
-2 points
-Openstack Glance
-AWS Marketplace
-OCI Marketplace
-None of the above
-31. A web server compute instance is to be setup into a cluster for HA. A load balancer front end will send requests in round robin to two web servers that will share common storage for html and image files. What is the easiest way to implement this common storage ?
-*
-2 points
-Use a shared block device for the web instances and setup a clustered filesystem on it
-Setup a PaaS filesystem storage that is mounted on both web servers
-Setup a PaaS object bucket storage and share the bucket on both web servers
-Create an instance to be an NFS server  sharing a directory and mount this on both servers
-32. A media company wants to setup a repository of its video and image files in the cloud. An administrator will control uploads and allow read access to the files from authenticated employees. What is the easiest way to do this ?
-*
-2 points
-Use archive storage for the files with a public bucket for all employees.
-Use object storaage for the files with a public bucket for all employees.
-Use object storage for the files with a private bucket for all employees
-Use filesystem storage for the files and mount on a public instance web server,
-33. A group of applications running on varied compute instances requires a common database for storing data. The database must be HA and easily scaled to handle a lot of transactions. What is the easiest way to do this ?
-*
-2 points
-Setup an Oracle RAC database using two compute instances and shared disks
-Setup a MySQL database using one compute instance that is replicated to anothe region
-Setup a Postgres database on all application compute instance and replicate between them
-Use a common database PaaS such as AWS RDS for access by all app instances
-34. A main difference between NoSQL and Relational database is
-*
-2 points
-Eventual consistency in NoSQL vs ACID in relational
-Key value data in NoSQL vs Tables in relational
-No need for SQL in NoSQL vs SQL in relational
-All of the above
-35. The difference between a Data Warehouse and a Data Lake is
-*
-2 points
-Warehouse uses structured data
-Data Lake uses structured data
-Data Warehouse can store log data
-Data Lake cannot store structure data
-36. AWS Aurora database uses what algorithm for controlling writes to replicas ?
-*
-2 points
-Redo logs
-Locking
-Write quorum
-Read quorum
-39. AWS Aurora engine uses what relational engine as its front end ?
-*
-2 points
-MySQL only
-Postgres only
-MySQL or Postgres
-Dynamo DB
-40. What options are possible with migrating on-premis databases to cloud database PaaS ?
-*
-2 points
-BYOL only
-License included only
-BYOL or License included
-None of the above
-41. A Load Balancer PaaS can be configured to
-*
-2 points
-Use a custom algorithm for spreading requests
-Dynamically add or remove back end servers
-Use more than one public IP for listening for requests
-Shut off backend servers when the request load is low
-42. With DNS as a service it is possible to
-*
-2 points
-Translate domain access to one or more compute instances
-Translate domain access to compute instances in one region
-Translate domain access to compute instances in any region
-Translate domain access to only one compute instance
-43. The policy for a DNS as a service to map a domain request depending on the requesting client's country of origin is called
-*
-2 points
-Regional policy
-Geolocation policy
-Routing policy
-None of the above
-44. An example of a cloud application development PaaS is
-*
-2 points
-Oracle Visual Builder
-AWS Beanstalk
-Oracle Application Express
-All of the above
-45. Which of the following is not a cloud database service ?
-*
-2 points
-MongoDB
-Cloud Foundry
-Cockroach DB
-SAP Hana
-46. GlusterFS allows storage that is similar to RAID 1 mirrored disks by using
-*
-2 points
-Distributed block volumes
-Replicated volumes
-Dispersed volumes
-None of the above
-47. Oracle APEX Low Code Paas allows multiple tenancy by using
-*
-2 points
-Schemas
-Workspaces
-Database users
-Oracle Database features
-48. PaaS automation is done by using an orchestration engine that
-*
-2 points
-Reads the configuration file for PaaS parameters and runs it
-Specifying PaaS parameters for a configuration
-Runs a script to get PaaS paramaters and status
-None of the above
-49. The Openstack VM Image PaaS is called
-*
-2 points
-Nova
-Cinder
-Glance
-Ceph
-50. The Openstack object storage PaaS is called
-*
-2 points
-Cinder
+Microservices
 Both of the below
-Swift
-Ceph
+Event stream
+Publish and subcribe
+5. A main difference of a web application compared to an event driven application is
+*
+2 points
+Processes for handling requests are always up and running
+Requests trigger processes to produce replies
+Programs provide functions for processing events
+None of the above
+6. A main difference of an event driven application compared to a web application is
+*
+2 points
+Application logic for programs
+Use of events instead of requests
+Processes for functions only run when an event needs handling
+None of the above
+7. An event driven application communicates with other applications or services for further processing using
+*
+2 points
+Events
+Messages
+Both of the above
+Cache
+8. A benefit of using Event Driven application is
+*
+2 points
+Asynchronous logical flow
+Scalability due to smaller resource footprint
+Distributed Data
+Using message queues for handling many events
+9. The problem with traditional Web Applications is
+*
+2 points
+Use of state between requests
+Need for immediate update of data
+Requires all infra tier components to be running
+Synchronous handling of all requests
+10. What is still always running in an Event Driven architecture ?
+*
+2 points
+Message broker
+Function
+Workflow
+Event stream
+11. A disadvantage of Event Driven applications is
+*
+2 points
+Need for source of truth
+Need of a message queue
+Not easy to convert to traditional design
+Applicable to most workflow systems
+12. What is still needed with an Event Driven application implemented by FaaS ?
+*
+2 points
+Always running event listener
+Non-event driven services
+Both of the above
+Message queueing
+13. A CSP implements Faas by using
+*
+2 points
+Containers
+Virtual Machines
+Message queues
+All of the above
+14. FaaS is monitored and billed by a CSP using
+*
+2 points
+Number of events handled
+Number of functions handled
+Runtime of containers for functions
+Number of message queues
+15. In contrast to CSP IaaS, PaaS and CaaS, FaaS only requires specifying
+*
+2 points
+Container requirements
+VM sizes requirements
+Database requirements
+Code for the functions
+16. The component needed for implementing FaaS is
+*
+2 points
+Event Queue
+Event Dispatcher
+Event Worker
+Event source
+17. An example of a use case for applications that require FaaS is
+*
+2 points
+Shopping app UI
+Static website
+File upload processing
+Data analytics
+18. Example of CSP FaaS service is
+*
+2 points
+AWS Lambda
+OCI Functions
+AWS S3
+OCI Object storage
+19. An example of CSP streaming for FaaS is
+*
+2 points
+OCI Functions
+AWS Kinesis
+AWS Riute 53
+AWS Lambda
+20. An examples of DIY FaaS is
+*
+2 points
+Apache Hadoop
+Fn project
+OpenFaaS
+Openstack Swift
+21. What node type does the Fn project implement for DIY FaaS ?
+*
+2 points
+Server
+Message Queue
+Load balancer
+Object storage
+22. What function does the OpenFaas server perform ?
+*
+2 points
+API gateway
+Function deployer for Kubernetes
+Ingress controller
+Container management
+23. Knative is a serverless FaaS that acts as
+*
+2 points
+Frontend to Kubernetes
+Resource definition repository
+Deployer of containers to Kubernetes
+Container registry
+24. What does Knative provide that is not present in OpenFaas or Fn Project FaaS implementations ?
+*
+2 points
+Listener and function definition
+Router to determine handling of an event
+Revisions of all previous configurations
+Definition of all events
+25. Among the hidden costs possible for FaaS is
+*
+2 points
+CSP deployed Container or VM costs
+Both of the below
+Database service
+Object or filesystem storage
+26. The disadvantage of Faas is
+*
+2 points
+When many events need to be handled per unit time
+Difficult to design and test
+Cost of container and VM
+Difficult to predict costs
+27. Biggest advantage of FaaS is
+*
+2 points
+Only event and function code is needed for an app
+Container deployment is automatically done by CSP
+VM deployment is automatically done by CSP
+All of the above
+28. SaaS is different from traditional software due to
+*
+2 points
+Subcription based pricing
+Less cost of purchase
+No future cost for usage
+Need to get license
+29. An advantage of SaaS over traditional software is
+*
+2 points
+No need for license to use
+Multiple device deployment without installing
+One time fee for usage
+Single device deployment and installing
+30. What client-side software is required to run a SaaS application ?
+*
+2 points
+Smart phone O/S
+Web Browser
+Native mobile app
+Native desktop app
+31. An example of a SaaS application is
+*
+2 points
+Microsoft office on windows
+Google mail
+Accounting software on windows
+VPN for windows
+32. An example of Oracle Cloud Saas is
+*
+2 points
+HCM
+ERP
+CRM
+All of the above
+33. An example of Microsoft Azure SaaS is
+*
+2 points
+Microsoft Outlook
+Microsoft Exchange email
+Both of the above
+Microsoft Office 365
+34. BaaS is a new CSP service that uses
+*
+2 points
+Combination of Cloud Storage and Database
+Combination of Push Notification and Hosting
+Both of the above
+All CSP services for mobile applications
+35. BaaS is a serverless CSP service because
+*
+2 points
+It uses no containers and VMs
+It uses an edge device
+It uses PaaS and IaaS transparently
+It can be used for mobile devices
+36. An important difference of BaaS compared to all other CSP services is
+*
+2 points
+It is serverless
+It uses no code
+It uses code on an edge device
+It uses PaaS transparently
+37. How does a mobile device interface to a CSP BaaS ?
+*
+2 points
+Using a web browser
+Using REST APIs
+Using Remote Procedure calls
+Using TCP/IP
+38. What is used by Baas to be able to alert the edge device about new data to be processed ?
+*
+2 points
+Messages
+Events
+Push Notifications
+Interrupts
+39. What is the sequence of events handled by an Event Drive application called ?
+*
+2 points
+Event flow
+Event streaming
+Workflow
+Event messaging
+40. What is needed in between functions in Event driven applications in order to not lose sequential event propagation ?
+*
+2 points
+Mesage publishing
+Push notification
+Interrupt handlers
+Message Queues
+41. Among the issues in using SaaS is 
+*
+2 points
+Security enforcement
+Data Privacy
+Security Encryption
+Sharing of data
+42. SaaS subscription pricing is based on
+*
+2 points
+Licensed CPUs
+Both of the below
+Number of users
+Amount of storage resource used
+43. An example of enterprise SaaS is
+*
+2 points
+Workday
+SAP Hana
+Salesforce
+Autonomous database
+44. A CDN is used by SaaS to
+*
+2 points
+Allow regional access to users to their ISPs
+Reduce bandwidth needed by ISPs for users
+Enhance SaaS response time for user devices
+Reduce the amount of data transferred from cloud
+45. The Netflix internal CDN network using proprietary hardware is called
+*
+2 points
+Open Interconnect
+Open Connect
+Netflix CDN
+Open CDN
+46. Among the SaaS applications that will benefit with CDNs is 
+*
+2 points
+Video on demand
+Games
+Enterprise SaaS
+Any SaaS application
+47. A cost model often used for SaaS is
+*
+2 points
+Pay as you go
+Pay per use
+Free trial
+Prepaid price
+48. What makes a SaaS application different from a traditional custom built web application ?
+*
+2 points
+Limited or no possible customization of features in SaaS
+Traditional web applications have no user self service enrollment
+SaaS is always built using other cloud services
+Better data privacy and security in traditional web applications
+49. A CDN is also called what type of cache by an ISP ?
+*
+2 points
+Video Cache
+Object Cache
+Network packet Cache
+Edge Cache
+50. Which of the following is true about SaaS in cloud computing ?
+*
+2 points
+SaaS  existed even before Cloud Computing was created
+SaaS requires application code on an edge device
+Complete SaaS can be built using FaaS only
+SaaS cannot work without a backend Public CSP
