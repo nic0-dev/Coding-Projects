@@ -7,7 +7,6 @@ use std::io::{self, Read, Seek, SeekFrom};
 use byteorder::{ByteOrder, LittleEndian};
 
 
-
 // ------------------------------------------------------------------ //
 
 // Represents a PCM WAV file
@@ -64,7 +63,7 @@ impl WaveReader {
     // Opens a PCM WAV file
     // Reads RIFF, format, and data chunk in sequence
     pub fn open_pcm(file_path: &str) -> Result <PCMWaveInfo, WaveReaderError> {
-        let mut file = File::open(Path::new(file_path))?;
+        let mut file = File::open(file_path)?;
 
         // Read RIFF chunk
         let riff_chunk = WaveReader::read_riff_chunk(&mut file)?;
@@ -84,42 +83,33 @@ impl WaveReader {
  
         Ok(PCMWaveInfo { riff_header: riff_chunk, fmt_header: fmt_chunk, data_chunks })
     }
-    // Reads the RIFF chunk from the file
+
     fn read_riff_chunk(fh: &mut File) -> Result <RiffChunk, WaveReaderError> {
-        let mut riff_header = [0u8; 12];        // Buffer to read the first 12 Bytes
+        let mut riff_header = [0u8; 12];                                                // Buffer to read the first 12 Bytes
         fh.read_exact(&mut riff_header)?;
 
-        // Check if the header is 'RIFF' or 'RIFX'
         if &riff_header[0..4] != b"RIFF" && &riff_header[0..4] != b"RIFX" {
             return Err(WaveReaderError::NotRiffError);
         }
 
-        // Determine the endianness and read the file size accordingly
+        let file_size = LittleEndian::read_u32(&riff_header[4..8]);
         let is_big_endian = &riff_header[0..4] == b"RIFX";
-        let file_size = if is_big_endian {
-            u32::from_be_bytes([riff_header[4], riff_header[5], riff_header[6], riff_header[7]])
-        } else {
-            LittleEndian::read_u32(&riff_header[4..8])
-        };
 
-        // Check if the file type is 'WAVE'
         if &riff_header[8..12] != b"WAVE" {
             return Err(WaveReaderError::NotWaveError);
         }
 
         Ok(RiffChunk { file_size, is_big_endian })
     }
-    // Reads the format chunk from the file
+
     fn read_fmt_chunk(fh: &mut File) -> Result <PCMWaveFormatChunk, WaveReaderError> {
-        let mut fmt_header = [0u8; 24];         // Buffer to read the next 24 Bytes
+        let mut fmt_header = [0u8; 24];                                                 // Buffer to read the next 24 Bytes
         fh.read_exact(&mut fmt_header)?;        
 
-        // Check if the chunk type is 'fmt '
         if &fmt_header[0..4] != b"fmt " {
             return Err(WaveReaderError::ChunkTypeError);
         }
 
-        // Read the format details using LittleEndian
         let num_channels = LittleEndian::read_u16(&fmt_header[10..12]);
         let samp_rate = LittleEndian::read_u32(&fmt_header[12..16]);
         let byte_rate = LittleEndian::read_u32(&fmt_header[16..20]);
@@ -128,7 +118,6 @@ impl WaveReader {
 
         let fmt_chunk = PCMWaveFormatChunk { num_channels, samp_rate, bps };
 
-        // Validate byte rate and block alignment
         if byte_rate != fmt_chunk.byte_rate() {
             return Err(WaveReaderError::DataAlignmentError);
         }
@@ -138,19 +127,18 @@ impl WaveReader {
 
         Ok(fmt_chunk)
     }
-    // Reads a data chunk from the file
+
     fn read_data_chunk(start_pos: u64, fmt_info: &PCMWaveFormatChunk, mut fh: File) -> Result <PCMWaveDataChunk, WaveReaderError> {
         fh.seek(SeekFrom::Start(start_pos))?;
 
         let mut data_header = [0u8; 8];
-        fh.read_exact(&mut data_header)?;
+        fh.read_exact(&mut fmt_header)?;
 
-        // Check if the chunk type is 'data'
         if &data_header[0..4] != b"data" {
             return Err(WaveReaderError::ChunkTypeError);
         }
-        // Read the size of the data chunk using LittleEndian
-        let size_bytes = LittleEndian::read_u32(&data_header[4..8]);        // DSubChunkSize
+
+        let size_bytes = LittleEndian::read_u32(&fmt_header[4..8]);        // DSubChunkSize
         let data_buf = io::BufReader::new(fh);
 
         Ok(PCMWaveDataChunk { size_bytes, format: *fmt_info, data_buf })
