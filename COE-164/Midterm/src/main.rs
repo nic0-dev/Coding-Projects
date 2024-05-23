@@ -1,8 +1,8 @@
 pub mod wav;
-// pub mod flac;
+pub mod flac;
 
 fn main() {
-    let file_path = String::from("sample_audio/music_c.wav");
+    let file_path = String::from("sample_audio/music_b.wav");
 
     let wave_obj = wav::WaveReader::open_pcm(&file_path);
 
