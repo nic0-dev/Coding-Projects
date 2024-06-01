@@ -5,7 +5,7 @@ if __name__ == "__main__":
     sys.stdout = open("output.txt", "w")
 
     choice = ['A. ', 'B. ', 'C. ', 'D. ']
-    multiple = [8, 9, 14, 16, 18, 20, 21, 22, 23, 26, 41, 43, 48, 50]
+    multiple = [9, 10, 12, 19, 31, 32, 34, 35, 36, 37, 39, 40, 43, 47, 48, 49]
     ctr = 0
     s = ' You may choose more than one answer.'
     for line in sys.stdin:

@@ -1,349 +1,349 @@
-1. FaaS is offered for applications that
+1.  The concern in data privacy about the location of tenancy user data is
 2 points
-Uses workflows
-Uses workflows and events
-Uses functions triggered by events in a workflow
-None of the above
-2. An example of event driven application is
-*
-2 points
-Payment processing
-Sensor device activation or trigger
-Both of the above
-Workflow sequencing
-3. An event driven application uses
-*
-2 points
-Synchronous Messaging
-Asynchronous Messaging
-Combination of the above
-Queueing of events
-4. A possible architectures of event driven application is
-*
-2 points
-Microservices
-Both of the below
-Event stream
-Publish and subcribe
-5. A main difference of a web application compared to an event driven application is
-*
-2 points
-Processes for handling requests are always up and running
-Requests trigger processes to produce replies
-Programs provide functions for processing events
-None of the above
-6. A main difference of an event driven application compared to a web application is
-*
-2 points
-Application logic for programs
-Use of events instead of requests
-Processes for functions only run when an event needs handling
-None of the above
-7. An event driven application communicates with other applications or services for further processing using
-*
-2 points
-Events
-Messages
-Both of the above
-Cache
-8. A benefit of using Event Driven application is
-*
-2 points
-Asynchronous logical flow
-Scalability due to smaller resource footprint
-Distributed Data
-Using message queues for handling many events
-9. The problem with traditional Web Applications is
-*
-2 points
-Use of state between requests
-Need for immediate update of data
-Requires all infra tier components to be running
-Synchronous handling of all requests
-10. What is still always running in an Event Driven architecture ?
-*
-2 points
-Message broker
-Function
-Workflow
-Event stream
-11. A disadvantage of Event Driven applications is
-*
-2 points
-Need for source of truth
-Need of a message queue
-Not easy to convert to traditional design
-Applicable to most workflow systems
-12. What is still needed with an Event Driven application implemented by FaaS ?
-*
-2 points
-Always running event listener
-Non-event driven services
-Both of the above
-Message queueing
-13. A CSP implements Faas by using
-*
-2 points
-Containers
-Virtual Machines
-Message queues
-All of the above
-14. FaaS is monitored and billed by a CSP using
-*
-2 points
-Number of events handled
-Number of functions handled
-Runtime of containers for functions
-Number of message queues
-15. In contrast to CSP IaaS, PaaS and CaaS, FaaS only requires specifying
-*
-2 points
-Container requirements
-VM sizes requirements
-Database requirements
-Code for the functions
-16. The component needed for implementing FaaS is
-*
-2 points
-Event Queue
-Event Dispatcher
-Event Worker
-Event source
-17. An example of a use case for applications that require FaaS is
-*
-2 points
-Shopping app UI
-Static website
-File upload processing
-Data analytics
-18. Example of CSP FaaS service is
-*
-2 points
-AWS Lambda
-OCI Functions
-AWS S3
-OCI Object storage
-19. An example of CSP streaming for FaaS is
-*
-2 points
-OCI Functions
-AWS Kinesis
-AWS Riute 53
-AWS Lambda
-20. An examples of DIY FaaS is
-*
-2 points
-Apache Hadoop
-Fn project
-OpenFaaS
-Openstack Swift
-21. What node type does the Fn project implement for DIY FaaS ?
-*
-2 points
-Server
-Message Queue
-Load balancer
-Object storage
-22. What function does the OpenFaas server perform ?
-*
-2 points
-API gateway
-Function deployer for Kubernetes
-Ingress controller
-Container management
-23. Knative is a serverless FaaS that acts as
-*
-2 points
-Frontend to Kubernetes
-Resource definition repository
-Deployer of containers to Kubernetes
-Container registry
-24. What does Knative provide that is not present in OpenFaas or Fn Project FaaS implementations ?
-*
-2 points
-Listener and function definition
-Router to determine handling of an event
-Revisions of all previous configurations
-Definition of all events
-25. Among the hidden costs possible for FaaS is
-*
-2 points
-CSP deployed Container or VM costs
-Both of the below
-Database service
-Object or filesystem storage
-26. The disadvantage of Faas is
-*
-2 points
-When many events need to be handled per unit time
-Difficult to design and test
-Cost of container and VM
-Difficult to predict costs
-27. Biggest advantage of FaaS is
-*
-2 points
-Only event and function code is needed for an app
-Container deployment is automatically done by CSP
-VM deployment is automatically done by CSP
-All of the above
-28. SaaS is different from traditional software due to
-*
-2 points
-Subcription based pricing
-Less cost of purchase
-No future cost for usage
-Need to get license
-29. An advantage of SaaS over traditional software is
-*
-2 points
-No need for license to use
-Multiple device deployment without installing
-One time fee for usage
-Single device deployment and installing
-30. What client-side software is required to run a SaaS application ?
-*
-2 points
-Smart phone O/S
-Web Browser
-Native mobile app
-Native desktop app
-31. An example of a SaaS application is
-*
-2 points
-Microsoft office on windows
-Google mail
-Accounting software on windows
-VPN for windows
-32. An example of Oracle Cloud Saas is
-*
-2 points
-HCM
-ERP
-CRM
-All of the above
-33. An example of Microsoft Azure SaaS is
-*
-2 points
-Microsoft Outlook
-Microsoft Exchange email
-Both of the above
-Microsoft Office 365
-34. BaaS is a new CSP service that uses
-*
-2 points
-Combination of Cloud Storage and Database
-Combination of Push Notification and Hosting
-Both of the above
-All CSP services for mobile applications
-35. BaaS is a serverless CSP service because
-*
-2 points
-It uses no containers and VMs
-It uses an edge device
-It uses PaaS and IaaS transparently
-It can be used for mobile devices
-36. An important difference of BaaS compared to all other CSP services is
-*
-2 points
-It is serverless
-It uses no code
-It uses code on an edge device
-It uses PaaS transparently
-37. How does a mobile device interface to a CSP BaaS ?
-*
-2 points
-Using a web browser
-Using REST APIs
-Using Remote Procedure calls
-Using TCP/IP
-38. What is used by Baas to be able to alert the edge device about new data to be processed ?
-*
-2 points
-Messages
-Events
-Push Notifications
-Interrupts
-39. What is the sequence of events handled by an Event Drive application called ?
-*
-2 points
-Event flow
-Event streaming
-Workflow
-Event messaging
-40. What is needed in between functions in Event driven applications in order to not lose sequential event propagation ?
-*
-2 points
-Mesage publishing
-Push notification
-Interrupt handlers
-Message Queues
-41. Among the issues in using SaaS is 
-*
-2 points
-Security enforcement
 Data Privacy
-Security Encryption
-Sharing of data
-42. SaaS subscription pricing is based on
+Data Sovereignty
+Data Integrity
+Data Secrecy
+2. Who is responsible for securing access from the Internet into an instance created by a tenant ?
 *
 2 points
-Licensed CPUs
+CSP
+Tenant
+Both of the above
+ISP
+3.  Who is responsible when a rogue employee of a CSP compromises a tenant instance ?
+*
+2 points
+CSP
+Tenant
+Both of the above
+ISP
+4. Encryption can be enforced by a tenant for all storage files, block volumes and for network traffic using
+*
+2 points
+Keys for block storage
+Keys for files
+SSL for network traffic
+All of the above
+5. A CSP may access a tenant's resources only when
+*
+2 points
+Requested by the tenant
+Requested by a government entity ass required by law
+Both of the above
+Repair of a CSP data center or hardware
+6. Encryption keys can be kept by the CSP in
+*
+2 points
+Key management service
+Hardware security module
+Both of the above
+Local PC keystore
+7. A CSP can suspend or terminate a tenancy due to
+*
+2 points
+Security breach of a tenant's instance
 Both of the below
-Number of users
-Amount of storage resource used
-43. An example of enterprise SaaS is
+Non-payment of monthly bill
+Violation of terms of service
+8. Encryption keys need to be stored by a CSP to
 *
 2 points
-Workday
-SAP Hana
-Salesforce
-Autonomous database
-44. A CDN is used by SaaS to
+Allow encryption of VCN traffic
+Allow a hardware security module to be used
+Allow block volume data to be decrypted
+Allow the CSP to detect anomalies
+9. An example of a cost issue in Public Cloud is
 *
 2 points
-Allow regional access to users to their ISPs
-Reduce bandwidth needed by ISPs for users
-Enhance SaaS response time for user devices
-Reduce the amount of data transferred from cloud
-45. The Netflix internal CDN network using proprietary hardware is called
+Few configuration options for resources
+Virtual Machine options are too restrictive
+Difficulty to estimate resource usage in advance
+Lack of monitoring options to track costs
+10. Among the factors for repatriation of resources from Public cloud to on-premise is
 *
 2 points
-Open Interconnect
-Open Connect
-Netflix CDN
-Open CDN
-46. Among the SaaS applications that will benefit with CDNs is 
+Cost of on-premise implementation is becoming lower
+Another CSP has lower cost for using resources
+Security of Intellectual Property is better kept outside of a CSP
+Reproducing CSP resources on-premise can be done by Cloud Appliances
+11. The CPU architecture of the ARM processor is based on
 *
 2 points
-Video on demand
-Games
-Enterprise SaaS
-Any SaaS application
-47. A cost model often used for SaaS is
+CISC
+RISC
+Stack Machine
+Low power consumption
+12.  A main difference of ARM compared to the x86 Intel or AMD architecture is
 *
 2 points
-Pay as you go
-Pay per use
-Free trial
-Prepaid price
-48. What makes a SaaS application different from a traditional custom built web application ?
+Use of RISC instead of CISC
+More internal registers
+Low power consumption
+Ability to custom fabricate a CPU
+13. ARM CPUs for servers are faced with the problem of
 *
 2 points
-Limited or no possible customization of features in SaaS
-Traditional web applications have no user self service enrollment
-SaaS is always built using other cloud services
-Better data privacy and security in traditional web applications
-49. A CDN is also called what type of cache by an ISP ?
+No industry-accepted standard motherboard
+Various options to connect to IO or special hardware
+Both of the above
+Lack of native Linux OS
+14. A shader on a Graphics Processing unit is a
 *
 2 points
-Video Cache
-Object Cache
-Network packet Cache
-Edge Cache
-50. Which of the following is true about SaaS in cloud computing ?
+Rendering  process built using OpenGL or CUDA library
+Program that controls pixel shading and rendering
+Representation of a task to be done by multiple GPU processing units
+All of the above
+15. A typical use of a GPU beyond graphics processing is for
 *
 2 points
-SaaS  existed even before Cloud Computing was created
-SaaS requires application code on an edge device
-Complete SaaS can be built using FaaS only
-SaaS cannot work without a backend Public CSP
+Cryptography computations
+Machine Learning processing
+Matrix mathematical computation
+All of the above
+16. The pioneer manufacturer of GPUs is
+*
+2 points
+Intel
+AMD
+Nvidia
+None of the above
+17. The best way to describe the internal hardware of a GPU is composed of
+*
+2 points
+Multiple interconnected but independent CPU, RAM units
+Distributed CPU, RAM units connected by a switch
+One CPU, RAM unit dedicated for graphics processing
+An accelerator for graphics controlled by the main PC CPU
+18. Macintosh VMs provided by AWS are implemented on Macintosh hardware added with a
+*
+2 points
+Network interface
+Nitro hypervisor
+Smart NIC
+Special ASIC
+19, Machine Learning is a branch of Artificial Intelligence that
+*
+2 points
+Uses symbolic representation of rules
+Classifies data through repeated tests for predicted output
+Predicts output data using a pattern based on previous tests
+Emulates the logical reasoning of a human
+20. A key element of Machine Learning algorithms in 
+*
+2 points
+Representation of data patterns
+Evaluation of data patterns
+Optimization of data patterns
+All of the above
+21. The most well-known ML model is based on a
+*
+2 points
+Sequential symbol processor
+Neural network
+Distributed System
+Interconnected processors
+22. A hidden Layer in a ML Neural Network is  best described as
+*
+2 points
+The vector of nodes that accepts inputs
+The vector of nodes that generate output
+The vector of nodes that work between input and output
+The vector of nodes that detects patterns
+23, The inputs to an ML Neural Network are also called its
+*
+2 points
+Starting data
+Raw data
+Parameters
+None of the above
+24. The reason why GPUs are suited to ML Neural Networks is
+*
+2 points
+The ability to use parallel graphics
+The ability to do general parallel processing
+The ability to do parallel matrix manipulation
+None of the above
+25. The reason why CSPs can provide AI services using ML is
+*
+2 points
+An instance can be enhanced to use a GPU
+Many GPUs can be made available to an instance
+Pools of VMs enhanced with GPUs can be used
+All of the above
+26.. The main reason why ARM CPU based instances are provided by CSPs is
+*
+2 points
+Lower cost compared to x86 CPUs
+Lower power consumption of ARM CPUs
+Both of the above
+Availability of Liinux for ARM VMs
+27. How does ML store intelligence on pattern detection in the hidden layers ?
+*
+2 points
+Because weights are like the way human neurons work
+No one knows why or how
+Because the hidden layers represent convolution
+Because the weights are adjusted by matching output to input
+28. A possible business use of an AI service using ML is
+*
+2 points
+Voice recognition
+Fraud detection
+Chat bot assistant
+All of the above
+29. An example of a CSP ML service is
+*
+2 points
+AWS Forecast
+AWS Sagemaker
+AWS Fraud detector
+All of the above
+30. The best way  describe an IoT device is it is
+*
+2 points
+A device with CPU, RAM, flash storage and network
+An embedded compute device with sensor and control interface
+An internet connected compute device that runs Linux
+An embedded compute device with an ARM CPU
+31. IoTs use Public Clouds for
+*
+2 points
+Communicating with other IoTs
+Storing large amounts of sensor data
+Obtaining control command data
+Computing analytics
+32. An actual example of a Smart virtual assistant IoT from a CSP is
+*
+2 points
+Amazon Alexa
+Google Nest
+Nintendo Switch
+Apple TV
+33. An example of a use case for IoT is
+*
+2 points
+Intelligent Transportation System
+Supply chain management
+Home security monitoring
+Building security monitoring
+34. How can IoT help to improve farming ?
+*
+2 points
+Remote plant watering based on soil sensor data
+Harvesting of crops when desired ripeness is detected
+Remote pest control of plants using drones
+Automated planting using robotic planters
+35. What CSP services can be used for IoT ?
+*
+2 points
+Storage for sensor data
+Analytics services for data analysis
+Control services such as security and management
+Software for installation on IoTs
+36. What are the components of Blockchain technology ?
+*
+2 points
+Cryptographic software for computing hash values
+Consensus mechanism for adding a new block
+Standard block format for start, end hash and user data
+External, single provider for the blockhain itself
+37. What is the difference of blocks in blockchain from a rows in a regular database table ?
+*
+2 points
+Blocks can only be appended to a blockchain
+There is only one sequence of blocks in a blockchain
+Blocks can have arbitrary size and contents
+Blockchains are publicly available and verifiable
+38. What is the best, complete description for a blockchain network ?
+*
+2 points
+Blockchain requires a consensus mechanism for validation
+Blockhains are publicly shared with no single authority
+Both of the above
+Blockchains are a sequential, append-only ledger
+39. What CSP services are offered for blockchain ?
+*
+2 points
+Managed blockchain database with SQL interface
+Managed blockchain network and storage
+VM instances with GPUs for DIY blockchain
+Cryptograhphy services for blockchain computations
+40. An example of CSP blockchain-specific service is
+*
+2 points
+OCI autonomous database blockchain tables
+AWS Quantum Ledger database
+OCI GPU enhanced Compute
+AWS GPU enhanced EC2
+41. The fundamental building block of a Quantum computer is
+*
+2 points
+Quantum bit or Qbit
+Quantum entanglement
+Quantum mechanics equations
+Bits
+42. Among the critical issues in Quantum Computing today that cannot be resolved is
+*
+2 points
+Power and low temperature requirements to preserver entanglement
+Both of the below
+Error correction due to noise that affects entanglement
+Algorithms to make its use comparable to classical computers
+43. The main issue with Quantum Computing as to how it works is
+*
+2 points
+Entanglement is not easy to create or maintain
+Noise can only be eliminated in near absolute zero temperatures
+Nobody knows how quantum mechanics really works
+Classical computers can still outmatch Quantum Computing speed
+44. A CSP that offer commercial services for Quantum Computing is
+*
+2 points
+IBM Cloud
+Google Cloud platform
+Oracle Cloud
+AWS
+45. Edge computing is a networking layer service specifically  for
+*
+2 points
+End user devices such as smart phones and IoTs
+On-premise data center servers
+Distributed data centers
+ISPs
+46. The main purpose of fog computing is
+*
+2 points
+Isolation of edge computing from cloud computing
+Provision of cloud computing services closer to edge devices
+Caching and optimization of cloud computing services
+Making cloud computing lower in cost with better performance
+47. A main difference between edge and fog computing is
+*
+2 points
+Edge computing does not have any servers or storage
+Fog computing has its own servers and storage
+There is no difference
+Fog computing is the same as cloud computing
+48. The main benefit of fog computing versus cloud computing is
+*
+2 points
+Lower latency of network traffic to edge devices
+Closer geogrpahical location to edge devices
+Faster servers for edge devices
+Large scale storage and server capacity
+49. NIST defines what services provided by Fog computing
+*
+2 points
+IaaS
+PaaS
+SaaS
+FaaS
+50. What would differentiate Mist computing from Edge or Fog computing ?
+*
+2 points
+Decongestion of fog computing services
+Allowing services to be provided by ISPs
+Clustering of sensor devices for edge IoTs
+Reduction of latency between edge and fog networks
