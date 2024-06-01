@@ -1,0 +1,10 @@
+[UP-LIB-SYS] "Book1" successfully requested!
+[UP-LIB-SYS] "Book2" successfully requested!
+[UP-LIB-SYS] "Book3" successfully requested!
+[UP-LIB-SYS] Processing 3 requests... Success!
+[UP-LIB-SYS] Queue is empty!
+[UP-LIB-SYS] Recently processed requests
+1. Book3
+2. Book1
+3. Book2
+[UP-LIB-SYS] "Book4" successfully requested!
