@@ -28,33 +28,28 @@ impl VarPredictor {
     /// the autocorrelation value of lag `i - 1`. `predictor_order` should be
     /// less than `autoc.len()`. The coefficients are computed using the Levinson-Durbin
     /// algorithm.
-    pub fn get_predictor_coeffs(autoc: &Vec <f64>, predictor_order: u8) -> Vec <f64> {
-        let mut coeffs = vec![0.0; predictor_order as usize];
-        let mut error = autoc[0];
+    pub fn get_predictor_coeffs(autoc: &Vec<f64>, predictor_order: u8) -> Vec<f64> {
+        let predictor_order = predictor_order as usize;
+        let mut coeffs = vec![0.0; predictor_order];
+        let mut e = autoc[0];
 
-        for i in 0..predictor_order as usize {
-            let mut k = autoc[i + 1];
-            for j in 0..i {
-                k -= coeffs[j] * autoc[i - j];
+        for m in 0..predictor_order {
+            let mut lambda = autoc[m + 1];
+            for i in 0..m {
+                lambda -= coeffs[i] * autoc[m - i];
             }
-            k /= error;
+            lambda /= e;
 
-            for j in 0..(i + 1) / 2 {
-                let temp = coeffs[j];
-                coeffs[j] += k * coeffs[i - j - 1];
-                coeffs[i - j - 1] += k * temp;
-            }
-            if i % 2 == 1 {
-                coeffs[i / 2] += k * coeffs[i / 2];
+            coeffs[m] = lambda;
+            for i in 0..m {
+                coeffs[i] -= lambda * coeffs[m - i - 1];
             }
 
-            coeffs[i] = k;
-            error *= 1.0 - k * k;
+            e *= 1.0 - lambda * lambda;
         }
 
         coeffs
     }
-
     /// Get a the list of LPC coefficients until some provided predictor order inclusive.
     /// 
     /// For the return value `lpc_list`, `lpc_list[i]` contains a `Vec` of coefficients
@@ -153,12 +148,13 @@ impl VarPredictor {
     /// This function selects the best predictor order by finding the order that yields the
     /// absolute minimum sum of residuals. Note that the maximmum predictor order is 32.
     pub fn get_best_lpc(samples: &Vec <i64>, bps: u8, block_size: u64) -> (Vec <i64>, u8, u8) {
+        let max_order = 32.min(samples.len() as u8);
         let mut best_coeffs = Vec::new();
         let mut best_precision = 0;
         let mut best_shift = 0;
         let mut min_residual_sum = i64::MAX;
 
-        for order in 1..=32 {
+        for order in 1..=max_order {
             let (coeffs, precision, shift) = VarPredictor::get_predictor_coeffs_from_samples(samples, order, bps, block_size);
             let residuals = VarPredictor::get_residuals(samples, &coeffs, order, shift);
             let mut residual_sum = 0;
@@ -198,7 +194,7 @@ impl VarPredictor {
     /// |   > 16    |     any    |          14             |
     pub fn get_best_precision(bps: u8, block_size: u64) -> u8 {
         if bps < 16 {
-            return std::cmp::max(1, 2 + bps / 2);
+            return std::cmp::max(1, 2 + (bps / 2));
         }
         match (bps, block_size) {
             (16, 192) => 7,
@@ -212,5 +208,83 @@ impl VarPredictor {
             (_, 1152) => 13,
             _ => 14,
         }
+    }
+}
+
+#[cfg(test)]
+mod tests {
+    use super::*;
+
+    #[test]
+    fn test_get_autocorrelation() {
+        let samples = vec![1, 2, 3, 4, 5];
+        let max_lag = 2;
+        let autoc = VarPredictor::get_autocorrelation(&samples, max_lag);
+        assert_eq!(autoc, vec![55.0, 40.0, 26.0]);
+    }
+
+    #[test]
+    fn test_get_predictor_coeffs() {
+        let autoc = vec![55.0, 40.0, 26.0];
+        let coeffs = VarPredictor::get_predictor_coeffs(&autoc, 2);
+        assert_eq!(coeffs, vec![0.8140350877192983, -0.1192982456140352]);
+    }
+
+    #[test]
+    fn test_build_predictor_coeffs() {
+        let autoc = vec![55.0, 40.0, 26.0];
+        let coeffs = VarPredictor::build_predictor_coeffs(&autoc, 2);
+        assert_eq!(coeffs, vec![vec![0.7272727272727273], vec![0.8140350877192983, -0.1192982456140352]]);
+    }
+
+    #[test]
+    fn test_quantize_coeffs() {
+        let lpc_coefs = vec![0.8140350877192983, -0.1192982456140352];
+        let precision = 7; // example precision
+        let (quantized, shift) = VarPredictor::quantize_coeffs(&lpc_coefs, precision);
+        assert_eq!(quantized, vec![104, -15]);
+        assert_eq!(shift, 7);
+    }
+
+    #[test]
+    fn test_get_residuals() {
+        let samples = vec![1, 2, 3, 4, 5];
+        let qlp_coefs = vec![104, -15];
+        let predictor_order = 2;
+        let qlp_shift = 7;
+        let residuals = VarPredictor::get_residuals(&samples, &qlp_coefs, predictor_order, qlp_shift);
+        assert_eq!(residuals, vec![1, 2, 2, 2, 3]);
+    }
+
+    #[test]
+    fn test_get_predictor_coeffs_from_samples() {
+        let samples = vec![1, 2, 3, 4, 5];
+        let predictor_order = 2;
+        let bps = 16;
+        let block_size = 192;
+        let (coeffs, precision, shift) = VarPredictor::get_predictor_coeffs_from_samples(&samples, predictor_order, bps, block_size);
+        assert_eq!(coeffs, vec![104, -15]);
+        assert_eq!(precision, 7);
+        assert_eq!(shift, 7);
+    }
+
+    #[test]
+    fn test_get_best_lpc() {
+        let samples = vec![1, 2, 3, 4, 5];
+        let bps = 16;
+        let block_size = 192;
+        let (coeffs, precision, shift) = VarPredictor::get_best_lpc(&samples, bps, block_size);
+        assert_eq!(coeffs, vec![93]);
+        assert_eq!(precision, 7);
+        assert_eq!(shift, 7);
+    }
+
+    #[test]
+    fn test_get_best_precision() {
+        assert_eq!(VarPredictor::get_best_precision(15, 100), 9);
+        assert_eq!(VarPredictor::get_best_precision(16, 192), 7);
+        assert_eq!(VarPredictor::get_best_precision(16, 384), 8);
+        assert_eq!(VarPredictor::get_best_precision(16, 4608), 12);
+        assert_eq!(VarPredictor::get_best_precision(17, 100), 14);
     }
 }

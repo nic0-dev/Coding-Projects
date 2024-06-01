@@ -1,12 +1,34 @@
 use std::ops::{Shl, Shr};
 
-use crate::flac::bitstream;
+fn to_binary(mut decimal: u32) -> Vec<u32> { // modified from https://codereview.stackexchange.com/questions/210967/decimal-to-binary-in-rust
+    let mut bits = Vec::new();
+    if decimal == 0 {
+        bits.push(0);
+    } else {
+
+
+        while decimal > 0 {
+            if decimal % 2 == 0 {
+                bits.push(0);
+            } else {
+                bits.push(1);
+            }
+
+            decimal /= 2;
+        }
+   
+    }
+    return bits
+}
+
+
 pub struct RiceEncoderOptions {
     num_samples: u64,
     predictor_order: u8,
 }
 
 #[derive(Debug)]
+#[derive(PartialEq)]
 pub struct RiceEncodedStream {
     pub stream: Vec <u8>,
     pub param: u8,
@@ -127,46 +149,47 @@ impl RiceEncoderOptions {
     /// byte-aligned encodings and number of unused bits in the last element, respectively.
     /// Rice encoding is variable-length, so there is a chance that the stream is not
     /// byte-aligned.
-    pub fn encode(rice_param: u8, residuals: &Vec <i64>) -> RiceEncodedStream {
-        let mut stream = vec![];
-        let mut extra_bits_len = 0;
-        let divisor = 1.shl(rice_param) as u64;
 
-        // Encode each residual value
-        for &residual in residuals.iter() {
-            let quotient = (residual.abs() as u64) / divisor;
-            let remainder = (residual.abs() as u64) % divisor;
-            let mut bits = vec![];
 
-            // Unary encode the quotient
-            for _ in 0..quotient {
-                bits.push(1);
+    pub fn encode(rice_param: u32, residuals: &Vec <i64>) -> RiceEncodedStream {
+        let mut encoded_bits = Vec::new();
+        let m = rice_param as u32;
+        let m_float = m as f32;
+        let k = m_float.log2() as u32;
+        let mut initial_num_bits = 0;
+        let mut final_num_bits = 0;
+
+        for residual in residuals {
+            // s: u32, m: u32, k: u32
+            let s = *residual as u32;
+            
+            // Unary part: U = S >> K
+            let u = s >> k;
+            // Unary encoding: represent U in unary with '0's followed by a '1'
+            for _ in 0..u {
+                encoded_bits.push(1 as u8);
             }
-            bits.push(0);
+            encoded_bits.push(0 as u8); 
 
-            // Binary encode the remainder
-            for i in (0..rice_param).rev() {
-                bits.push((remainder.shr(i)) as u8 & 1);
+            // Truncated Binary part: B = S & (M - 1)
+            let b = s & (m - 1);
+            // Binary encoding: represent B in binary, padded to the left with zeros until it is of length K
+            for i in (0..k).rev() { // MSB -> LSB
+                encoded_bits.push(((b >> i) & 1) as u8);
             }
-
-            // Append bits to the stream
-            for bit in bits {
-                if stream.len() * 8 == extra_bits_len {
-                    stream.push(0);
-                }
-                if bit == 1 {
-                    stream[extra_bits_len / 8] |= 1.shl(7 - (extra_bits_len % 8)) as u8;
-                }
-                extra_bits_len += 1;
-            }
+            initial_num_bits += to_binary(s).len();
+            final_num_bits = encoded_bits.len();
         }
 
+        let extra_bits_len = final_num_bits - initial_num_bits;
         RiceEncodedStream {
-            stream,
-            param: rice_param,
+            stream: encoded_bits,
+            param: m as u8,
             extra_bits_len: extra_bits_len as u8,
         }
+        //encoded_bits
     }
+
 
     /// Encode residuals into Rice encoding
     /// 
@@ -183,9 +206,71 @@ impl RiceEncoderOptions {
             let start = (i as u64 * self.num_samples).shr(best_order) as usize;
             let end = ((i as u64 + 1) * self.num_samples).shr(best_order) as usize;
             let partition_residuals = residuals[start..end].to_vec();
-            streams.push(RiceEncoderOptions::encode(best_params[i as usize], &partition_residuals));
+            streams.push(RiceEncoderOptions::encode(best_params[i as usize].into(), &partition_residuals));
         }
 
         (streams, best_order)
     }
 }
+
+
+
+#[cfg(test)]
+mod tests {
+    use super::*;
+
+    #[test]
+    fn test_encode() {
+        let m = 16;
+        let input_residuals = vec![18];
+        let expected_output = RiceEncodedStream { stream: vec![1, 0, 0, 0, 1, 0], param: m as u8, extra_bits_len: 1}; // from CoE 164 MidP Annex
+        
+        let rice_encoded_stream = RiceEncoderOptions::encode(m, &input_residuals);
+
+        assert_eq!(rice_encoded_stream, expected_output);
+    }
+    
+    #[test]
+    fn test_best_partition() {
+        let input_residuals = vec![10];
+        let input_num_samples = 1;
+        let input_predictor_order = 0;
+        let test_rice_encoder_options = RiceEncoderOptions::new(input_num_samples, input_predictor_order);
+        let expected_order = 0;
+        
+        let best_order = test_rice_encoder_options.best_partition_and_params(&input_residuals).1;
+
+        assert_eq!(best_order, expected_order); // There will be 2^order partitions, so there will only be one partition
+    }
+
+    #[test]
+    fn test_best_parameter() {
+        let input_residuals = vec![10];
+        let input_num_samples = 1;
+        let input_predictor_order = 0;
+        let test_rice_encoder_options = RiceEncoderOptions::new(input_num_samples, input_predictor_order);
+        let expected_output = vec![2];
+        
+        let best_params = test_rice_encoder_options.best_partition_and_params(&input_residuals).0;
+
+        assert_eq!(best_params, expected_output); // best rice parameter for the single partition
+        
+    }
+
+    #[test]
+    fn test_encode_by_partition() { 
+        let input_residuals = vec![10];
+        let input_num_samples = 1;
+        let input_predictor_order = 0;
+        let test_rice_encoder_options = RiceEncoderOptions::new(input_num_samples, input_predictor_order);
+        let expected_output = vec![RiceEncodedStream {stream: vec![1, 1, 1, 1, 1, 0, 0], param: 2, extra_bits_len: 3 }];
+        // (streams, best_order) 
+        let test_stream = test_rice_encoder_options.encode_by_partition(&input_residuals).0;
+
+        assert_eq!(test_stream, expected_output); 
+        
+    }
+    
+}
+
+   

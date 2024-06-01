@@ -65,3 +65,69 @@ impl Utf8Encoder {
         encoded_bytes
     }
 }
+
+
+#[cfg(test)]
+mod tests {
+    use super::*;
+
+    #[test]
+    fn test_utf8_encoder_1_byte() {
+        let num = 0x7F; // 127 in decimal
+        let expected_output = vec![0x7F]; // from https://www.cogsci.ed.ac.uk/~richard/utf-8.cgi?input=7F&mode=hex
+        
+        let encoded_bytes = Utf8Encoder::encode(num);
+
+        assert_eq!(encoded_bytes, expected_output);
+    }
+
+    #[test]
+    fn test_utf8_encoder_2_bytes() {
+        let num = 0x7FF; // 2047 in decimal
+        let expected_output = vec![0xDF, 0xBF]; // from https://www.cogsci.ed.ac.uk/~richard/utf-8.cgi?input=7FF&mode=hex
+        
+        let encoded_bytes = Utf8Encoder::encode(num);
+
+        assert_eq!(encoded_bytes, expected_output);
+    }
+
+    #[test]
+    fn test_utf8_encoder_3_bytes() {
+        let num = 0xFFFF; // 65535 in decimal
+        let expected_output = vec![0xEF, 0xBF, 0xBF]; // from https://www.cogsci.ed.ac.uk/~richard/utf-8.cgi?input=FFFF&mode=hex
+
+        let encoded_bytes = Utf8Encoder::encode(num);
+
+        assert_eq!(encoded_bytes, expected_output);
+    }
+
+    #[test]
+    fn test_utf8_encoder_4_bytes() {
+        let num = 0x1FFFFF; // 2097151 in decimal
+        let expected_output = vec![0xF7, 0xBF, 0xBF, 0xBF]; // from https://www.cogsci.ed.ac.uk/~richard/utf-8.cgi?input=1FFFFF&mode=hex
+        
+        let encoded_bytes = Utf8Encoder::encode(num);
+
+        assert_eq!(encoded_bytes, expected_output);
+    }
+
+    #[test]
+    fn test_utf8_encoder_5_bytes() {
+        let num = 0x3FFFFFF; // 67108863 in decimal
+        let expected_output = vec![0xFB, 0xBF, 0xBF, 0xBF, 0xBF]; // from https://www.cogsci.ed.ac.uk/~richard/utf-8.cgi?input=3FFFFFF&mode=hex
+        
+        let encoded_bytes = Utf8Encoder::encode(num);
+
+        assert_eq!(encoded_bytes, expected_output);
+    }
+
+    #[test]
+    fn test_utf8_encoder_6_bytes() {
+        let num = 0x7FFFFFFF; // 2147483647 in decimal
+        let expected_output = vec![0xFD, 0xBF, 0xBF, 0xBF, 0xBF, 0xBF]; // from https://www.cogsci.ed.ac.uk/~richard/utf-8.cgi?input=7FFFFFFF&mode=hex
+
+        let encoded_bytes = Utf8Encoder::encode(num);
+
+        assert_eq!(encoded_bytes, expected_output);
+    }
+}

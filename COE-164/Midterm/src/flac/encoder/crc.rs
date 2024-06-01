@@ -61,3 +61,36 @@ impl CrcOptions <u16> {
         crc
     }
 }
+
+
+#[cfg(test)]
+mod tests {
+    use super::*;
+    #[cfg(test)]
+    mod crc_test {
+        use super::*;
+    
+        #[test]
+        fn test_functionality_crc8() {
+            let crc_encoder_builder = CrcOptions::new(0x7, 8); // poly from x^8 + x^2 + x^1 + 1
+            let sample_data = vec![0x01, 0x23, 0x45, 0x67, 0x99];
+            let expected_output = 0x88; // from CRC-8 https://crccalc.com/
+
+            let crc8 = crc_encoder_builder.build_crc8(&sample_data);
+
+            assert_eq!(crc8, expected_output);
+        }
+
+        #[test]
+        fn test_functionality_crc16() {
+            let crc_encoder_builder = CrcOptions::new(0x8005, 16); // poly from x^16 + x^15 + x^2 + 1
+            let sample_data = vec![0xB2D3, 0xC4E5, 0xA6F7]; // Sample data
+            let expected_output =0x5E6D; // from CRC-16/BUYPASS https://crccalc.com/
+
+            let crc16 = crc_encoder_builder.build_crc16(&sample_data);
+
+            assert_eq!(crc16, expected_output);
+        }
+    }
+    
+}

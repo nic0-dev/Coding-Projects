@@ -49,6 +49,7 @@ pub struct WaveReader;
 
 // Represents possible errors in the WAV Reader
 #[derive(Debug)]
+#[derive(PartialEq)]
 pub enum WaveReaderError {
     NotRiffError,
     NotWaveError,
@@ -190,11 +191,11 @@ impl fmt::Display for PCMWaveInfo {
 
 impl PCMWaveFormatChunk {
     // Calculates the byte rate of the WAV file
-    fn byte_rate(&self) -> u32 {
+    pub fn byte_rate(&self) -> u32 {
         self.samp_rate * (self.num_channels as u32) * (self.bps as u32) / 8
     }
     // Calculates the block alignment of the WAV file
-    fn block_align(&self) -> u16 {
+    pub fn block_align(&self) -> u16 {
         self.num_channels * self.bps / 8
     }
 }
@@ -486,7 +487,174 @@ mod tests {
         }
     }
 
+    #[cfg(test)]
     mod read_data_fmt {
-        // TODO
+        use super::*;
+        use std::io::Write;
+    
+        fn create_temp_file(file_name: &str, content: &[u8]) -> Result<(), io::Error> {
+            let mut file = File::create(file_name)?;
+            file.write_all(content)?;
+    
+            Ok(())
+        }
+        
+        #[test]
+        fn it_valid_data_chunk() -> Result<(), WaveReaderError> {
+            let input = &[
+                0x64, 0x61, 0x74, 0x61, // "data"
+                0x0C, 0x00, 0x00, 0x00, // Chunk size: 12 bytes
+                // Sample data: two channels, each with a 16-bit sample
+                0x00, 0x00, 0x01, 0x00, 0xFF, 0xFF, 0x00, 0x00, 0x01, 0x00, 0xFF, 0xFF,
+            ];
+    
+            let file_name = "data_chunk_test.wav";
+            let result;
+            {
+                create_temp_file(&file_name, input)?;
+                let input_fh = File::open(&file_name)?;
+                result = WaveReader::read_data_chunk(0, &PCMWaveFormatChunk {
+                    num_channels: 2,
+                    samp_rate: 44100,
+                    bps: 16,
+                }, input_fh);
+            }
+            std::fs::remove_file(&file_name)?;
+    
+            if let Ok(data_chunk) = result {
+                assert_eq!(data_chunk.size_bytes, 12);
+                // Ensure format details are correct
+                assert_eq!(data_chunk.format.num_channels, 2);
+                assert_eq!(data_chunk.format.samp_rate, 44100);
+                assert_eq!(data_chunk.format.bps, 16);
+            } else {
+                result?;
+            }
+    
+            Ok(())
+        }
+    
+        #[test]
+        fn it_invalid_chunk_type() -> Result<(), WaveReaderError> {
+            let input = &[
+                0x73, 0x75, 0x62, 0x2D, // "sub-"
+                0x0C, 0x00, 0x00, 0x00, // Chunk size: 12 bytes
+                0x00, 0x00, 0x01, 0x00, 0xFF, 0xFF, 0x00, 0x00, 0x01, 0x00, 0xFF, 0xFF,
+            ];
+    
+            let file_name = "invalid_chunk_test.wav";
+            let result;
+            {
+                create_temp_file(&file_name, input)?;
+                let input_fh = File::open(&file_name)?;
+                result = WaveReader::read_data_chunk(0, &PCMWaveFormatChunk {
+                    num_channels: 2,
+                    samp_rate: 44100,
+                    bps: 16,
+                }, input_fh);
+            }
+            std::fs::remove_file(&file_name)?;
+    
+            assert!(result.is_err());
+    
+            Ok(())
+        }
+    
+        // Add more test cases as needed
+    }
+    
+    #[cfg(test)]
+    mod pcm_wave_info_display {
+        use super::*;
+    
+        #[test]
+        fn test_display() {
+            let wave_info = PCMWaveInfo {
+                riff_header: RiffChunk {
+                    file_size: 1234,
+                    is_big_endian: false,
+                },
+                fmt_header: PCMWaveFormatChunk {
+                    num_channels: 2,
+                    samp_rate: 44100,
+                    bps: 16,
+                },
+                data_chunks: Vec::new(),
+            };
+    
+            assert_eq!(
+                format!("{}", wave_info),
+                "WAVE File 1234 bytes, 16-bit 2 channels, 44100Hz, 0 data chunks"
+            );
+        }
+    }
+    
+    #[cfg(test)]
+    mod pcm_wave_format_chunk_methods {
+        use super::*;
+    
+        #[test]
+        fn test_byte_rate() {
+            let format_chunk = PCMWaveFormatChunk {
+                num_channels: 2,
+                samp_rate: 44100,
+                bps: 16,
+            };
+    
+            assert_eq!(format_chunk.byte_rate(), 176400);
+        }
+    
+        #[test]
+        fn test_block_align() {
+            let format_chunk = PCMWaveFormatChunk {
+                num_channels: 2,
+                samp_rate: 44100,
+                bps: 16,
+            };
+    
+            assert_eq!(format_chunk.block_align(), 4);
+        }
+    }
+
+    #[cfg(test)]
+    mod endianess_detector {
+        use super::*;
+    
+        #[test]
+        fn test_endianess() {
+            let wave_info = PCMWaveInfo {
+                riff_header: RiffChunk {
+                    file_size: 1234,
+                    is_big_endian: false,
+                },
+                fmt_header: PCMWaveFormatChunk {
+                    num_channels: 2,
+                    samp_rate: 44100,
+                    bps: 16,
+                },
+                data_chunks: Vec::new(),
+            };
+    
+            let expected_endianess = false;
+            assert_eq!(wave_info.riff_header.is_big_endian, expected_endianess);
+        }
+    }
+
+    #[cfg(test)]
+    mod other_error_handling {
+        use super::*;
+    
+        #[test]
+        fn test_display() {
+            let error = WaveReaderError::NotRiffError;
+            assert_eq!(format!("{}", error), "Not a valid RIFF header");
+        }
+    
+        #[test]
+        fn test_from_io_error() {
+            let io_error = io::Error::new(io::ErrorKind::Other, "Test error");
+            let wave_reader_error: WaveReaderError = io_error.into();
+            assert_eq!(wave_reader_error, WaveReaderError::ReadError);
+        }
     }
 }
